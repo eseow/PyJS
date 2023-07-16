@@ -1,0 +1,28 @@
+{
+	"env": {
+		"myDefaultIncludePath": [
+			"${workspaceFolder}/Dependencies/googlemock/include",
+			"${workspaceFolder}/Dependencies/googletest/include",
+			"${workspaceFolder}/include",
+			"${workspaceFolder}/test/mocks"
+		],
+		"myCompilerPath": "/usr/bin/g++"
+	},
+	"configurations": [
+		{
+			"name": "Windows",
+			"intelliSenseMode": "gcc-x64",
+			"includePath": ["${myDefaultIncludePath}"],
+			"compilerPath": "${myCompilerPath}",
+			"cStandard": "c11",
+			"cppStandard": "c++17",
+			"browse": {
+				"path": ["${workspaceFolder}"],
+				"limitSymbolsToIncludedHeaders": true,
+				"databaseFilename": ""
+			},
+			"configurationProvider": "ms-vscode.cmake-tools"
+		}
+	],
+	"version": 4
+}

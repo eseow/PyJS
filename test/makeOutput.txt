@@ -1,0 +1,7 @@
+make gtest && g++ -std=c++17 -Wall -isystem ../Dependencies/googletest/include -isystem ../Dependencies/googlemock/include -I../include -I./mocks  -g -Wall -Wextra -pthread -lpthread ../src/Scanner.o ../src/Token.o ../src/Literal.o ./test.o gtest_main.a gmock_main.a -o test 
+make[1]: Entering directory '/home/ethanseow/CS/pyjs/test'
+make -f makefile-gtest all
+make[2]: Entering directory '/home/ethanseow/CS/pyjs/test'
+make[2]: Nothing to be done for 'all'.
+make[2]: Leaving directory '/home/ethanseow/CS/pyjs/test'
+make[1]: Leaving directory '/home/ethanseow/CS/pyjs/test'
