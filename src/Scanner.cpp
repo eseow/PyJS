@@ -23,7 +23,7 @@ string trim(const std::string &s)
 bool isNumerical(char c)
 {
     std::string value(1, c);
-    std::regex pattern("^[0-9]+(\\.[0-9]+)?$");
+    std::regex pattern("^[0-9.]$");
     return std::regex_match(value, pattern);
 }
 bool isValidVariable(char c)
@@ -41,6 +41,7 @@ Scanner::Scanner(std::ifstream *file)
     initFileContents(file);
     this->tokens = new std::vector<Token>();
     this->lexemeLookUp = new std::map<TokenType, std::string>({// Literals
+                                                               {TokenType::TAB, "tab"},
                                                                {TokenType::IDENTIFIER, "identifier"},
                                                                {TokenType::STRING, "string"},
                                                                {TokenType::INT, "int"},
@@ -169,6 +170,9 @@ void Scanner::consumeToken()
 {
     switch (peek())
     {
+    case '\t':
+        addToken(TokenType::TAB);
+        break;
     case '+':
         if (matchNext('='))
         {
@@ -369,6 +373,10 @@ void Scanner::scanNumber()
         {
             addToken(std::stod(str));
         }
+        else if (str[str.length() - 1] == '.')
+        {
+            addToken(std::stod(str));
+        }
         else
         {
             addToken(std::stod("0" + str));
@@ -465,7 +473,7 @@ void Scanner::addToken(int i)
 }
 void Scanner::addToken(double d)
 {
-    Token t(TokenType::INT, std::to_string(d), line, d);
+    Token t(TokenType::DOUBLE, std::to_string(d), line, d);
     addTokenHelper(t);
 }
 void Scanner::addToken(bool b)
@@ -506,5 +514,5 @@ string Scanner::tokensToString()
     {
         ret += tokens->at(i).toString() + "\n";
     }
-    return ret;
+    return ret.substr(0, ret.length() - 1);
 }

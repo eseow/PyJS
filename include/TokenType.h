@@ -101,6 +101,7 @@ enum TokenType
     COLON,
     SEMICOLON,
     ARROW,
-    AT
+    AT,
+    TAB
 };
 #endif

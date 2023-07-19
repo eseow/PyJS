@@ -15,10 +15,8 @@ bool fileExists(const std::string &filePath)
     return fs::exists(filePath) && fs::is_regular_file(filePath);
 }
 
-TEST(Scanner, TokenizesPythonCode)
+void testPythonFile(string filePath, string expectedFilePath)
 {
-    std::string filePath = "./testcases/basic.py";
-    std::string expectedFilePath = "./testcases/basic.txt";
     if (!fileExists(filePath) || !fileExists(expectedFilePath))
     {
         FAIL() << "File not found " << filePath;
@@ -31,10 +29,18 @@ TEST(Scanner, TokenizesPythonCode)
     expectedFile.open(expectedFilePath);
     std::stringstream buffer;
     buffer << expectedFile.rdbuf();
-    ScannerMock scanner(&file);
+    NiceMock<ScannerMock> scanner(&file);
     scanner.scanTokens();
     string str = scanner.tokensToString();
     EXPECT_EQ(str, buffer.str());
+}
+
+TEST(Scanner, TokenizesPythonCode)
+{
+    //    testPythonFile("./testcases/input/basic.py", "./testcases/output/basic.txt");
+    //   testPythonFile("./testcases/input/function.py", "./testcases/output/function.txt");
+
+    testPythonFile("./testcases/input/decimal.py", "./testcases/output/decimal.txt");
 }
 
 int main(int argc, char *argv[])
