@@ -37,9 +37,9 @@ tab \t
 tab \t
 print print
 left_paren (
-string "FizzBuzz"
+string 'FizzBuzz'
 right_paren )
-newline \n
+tab \t
 tab \t
 elif elif
 identifier 'i'
@@ -53,9 +53,9 @@ tab \t
 tab \t
 print print
 left_paren (
-string "Fizz"
+string 'Fizz'
 right_paren )
-newline \n
+tab \t
 tab \t
 elif elif
 identifier 'i'
@@ -69,8 +69,9 @@ tab \t
 tab \t
 print print
 left_paren (
-string "Buzz"
+string 'Buzz'
 right_paren )
+tab \t
 tab \t
 else else
 colon :

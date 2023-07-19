@@ -165,7 +165,7 @@ void Scanner::consumeToken()
         }
         else
         {
-            addToken(TokenType::PERCENT);
+            addToken(TokenType::MODULO);
         }
         break;
     case '=':
@@ -260,6 +260,7 @@ void Scanner::consumeToken()
     case '\n':
         line++;
         break;
+
     default:
         // multi-character tokens
         if (isNumerical(peek()))
