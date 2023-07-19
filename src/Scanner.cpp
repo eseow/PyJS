@@ -40,90 +40,7 @@ Scanner::Scanner(std::ifstream *file)
     this->line = 0;
     initFileContents(file);
     this->tokens = new std::vector<Token>();
-    this->lexemeLookUp = new std::map<TokenType, std::string>({// Literals
-                                                               {TokenType::TAB, "tab"},
-                                                               {TokenType::IDENTIFIER, "identifier"},
-                                                               {TokenType::STRING, "string"},
-                                                               {TokenType::INT, "int"},
-                                                               {TokenType::DOUBLE, "double"},
-                                                               {TokenType::BOOL, "bool"},
-
-                                                               // Keywords
-                                                               {TokenType::FALSE, "False"},
-                                                               {TokenType::NONE, "None"},
-                                                               {TokenType::TRUE, "True"},
-                                                               {TokenType::AND, "and"},
-                                                               {TokenType::AS, "as"},
-                                                               {TokenType::ASSERT, "assert"},
-                                                               {TokenType::ASYNC, "async"},
-                                                               {TokenType::AWAIT, "await"},
-                                                               {TokenType::BREAK, "break"},
-                                                               {TokenType::CLASS, "class"},
-                                                               {TokenType::CONTINUE, "continue"},
-                                                               {TokenType::DEF, "def"},
-                                                               {TokenType::DEL, "del"},
-                                                               {TokenType::ELIF, "elif"},
-                                                               {TokenType::ELSE, "else"},
-                                                               {TokenType::EXCEPT, "except"},
-                                                               {TokenType::FINALLY, "finally"},
-                                                               {TokenType::FOR, "for"},
-                                                               {TokenType::FROM, "from"},
-                                                               {TokenType::GLOBAL, "global"},
-                                                               {TokenType::IF, "if"},
-                                                               {TokenType::IMPORT, "import"},
-                                                               {TokenType::IN, "in"},
-                                                               {TokenType::IS, "is"},
-                                                               {TokenType::LAMBDA, "lambda"},
-                                                               {TokenType::NONLOCAL, "nonlocal"},
-                                                               {TokenType::NOT, "not"},
-                                                               {TokenType::OR, "or"},
-                                                               {TokenType::PASS, "pass"},
-                                                               {TokenType::RAISE, "raise"},
-                                                               {TokenType::RETURN, "return"},
-                                                               {TokenType::TRY, "try"},
-                                                               {TokenType::WHILE, "while"},
-                                                               {TokenType::WITH, "with"},
-                                                               {TokenType::YIELD, "yield"},
-
-                                                               // Operators and Delimiters
-                                                               {TokenType::PLUS, "+"},
-                                                               {TokenType::MINUS, "-"},
-                                                               {TokenType::ASTERISK, "*"},
-                                                               {TokenType::SLASH, "/"},
-                                                               {TokenType::DOUBLE_SLASH, "//"},
-                                                               {TokenType::PERCENT, "%"},
-                                                               {TokenType::DOUBLE_ASTERISK, "**"},
-                                                               {TokenType::EQUAL, "="},
-                                                               {TokenType::DOUBLE_EQUAL, "=="},
-                                                               {TokenType::NOT_EQUAL, "!="},
-                                                               {TokenType::GREATER, ">"},
-                                                               {TokenType::GREATER_EQUAL, ">="},
-                                                               {TokenType::LESS, "<"},
-                                                               {TokenType::LESS_EQUAL, "<="},
-                                                               {TokenType::PLUS_EQUAL, "+="},
-                                                               {TokenType::MINUS_EQUAL, "-="},
-                                                               {TokenType::ASTERISK_EQUAL, "*="},
-                                                               {TokenType::SLASH_EQUAL, "/="},
-                                                               {TokenType::DOUBLE_SLASH_EQUAL, "//="},
-                                                               {TokenType::PERCENT_EQUAL, "%="},
-                                                               {TokenType::DOUBLE_ASTERISK_EQUAL, "**="},
-                                                               {TokenType::VERTICAL_BAR, "|"},
-                                                               {TokenType::AMPERSAND, "&"},
-                                                               {TokenType::TILDE, "~"},
-                                                               {TokenType::CARET, "^"},
-                                                               {TokenType::RIGHT_SHIFT, ">>"},
-                                                               {TokenType::LEFT_SHIFT, "<<"},
-                                                               {TokenType::LEFT_PAREN, "("},
-                                                               {TokenType::RIGHT_PAREN, ")"},
-                                                               {TokenType::LEFT_BRACKET, "["},
-                                                               {TokenType::RIGHT_BRACKET, "]"},
-                                                               {TokenType::LEFT_BRACE, "{"},
-                                                               {TokenType::RIGHT_BRACE, "}"},
-                                                               {TokenType::COMMA, ","},
-                                                               {TokenType::COLON, ":"},
-                                                               {TokenType::SEMICOLON, ";"},
-                                                               {TokenType::ARROW, "->"},
-                                                               {TokenType::AT, "@"}});
+    this->lexemeLookUp = Token::tokenLexemeMap;
     this->reverseLexemeLookUp = new std::map<std::string, TokenType>();
     for (const auto &entry : *(this->lexemeLookUp))
     {
@@ -170,7 +87,11 @@ void Scanner::consumeToken()
 {
     switch (peek())
     {
+    case '#':
+        scanComment();
+        break;
     case '\t':
+        std::cout << " got a tab ";
         addToken(TokenType::TAB);
         break;
     case '+':
@@ -330,6 +251,7 @@ void Scanner::consumeToken()
         addToken(TokenType::SEMICOLON);
         break;
     case ' ':
+        std::cout << "got a space";
         break;
     case '\n':
         line++;
@@ -402,7 +324,19 @@ void Scanner::scanString()
     // +1 because start = 25, current = 26 - we would like to get char 25 (char 26 broke something)
     int span = current - start;
     string str = (fileContents.substr(start, span));
-    addToken(str, false);
+    addToken(str, TokenTextType::TEXT_STRING);
+    prev();
+}
+void Scanner::scanComment()
+{
+    start = current;
+    while (peek() != EOF_CHARACTER && !(peek() == '\n'))
+    {
+        advance();
+    }
+    int span = current - start;
+    string str = (fileContents.substr(start, span));
+    addToken(str, TokenTextType::TEXT_COMMENT);
     prev();
 }
 void Scanner::scanIdentifier()
@@ -430,7 +364,7 @@ void Scanner::scanIdentifier()
     }
     else
     {
-        addToken(identifier, true);
+        addToken(identifier, TokenTextType::TEXT_IDENTIFIER);
     }
     prev();
 }
@@ -443,18 +377,24 @@ void Scanner::addTokenHelper(Token t)
 {
     this->tokens->push_back(t);
 }
-void Scanner::addToken(string str, bool isIdentifier)
+void Scanner::addToken(string str, TokenTextType tokenTextType)
 {
     Token *t;
-    // todo - determine if the str is a keyword or not
-    if (isIdentifier)
+    switch (tokenTextType)
     {
-        t = new Token(TokenType::IDENTIFIER, str, line, nullptr);
-    }
-    else
-    {
+    case TokenTextType::TEXT_COMMENT:
+        t = new Token(TokenType::HASH, str, line, str);
+        break;
+    case TokenTextType::TEXT_STRING:
         t = new Token(TokenType::STRING, str, line, str);
+        break;
+    case TokenTextType::TEXT_IDENTIFIER:
+        t = new Token(TokenType::IDENTIFIER, str, line, nullptr);
+        break;
+    default:
+        break;
     }
+    // todo - determine if the str is a keyword or not
     addTokenHelper(*t);
 }
 void Scanner::addToken(TokenType tokenType)

@@ -9,6 +9,13 @@ using std::map;
 using std::string;
 using std::vector;
 
+enum TokenTextType
+{
+    TEXT_IDENTIFIER,
+    TEXT_COMMENT,
+    TEXT_STRING
+};
+
 class Scanner
 {
 public:
@@ -20,7 +27,7 @@ public:
     bool matchNext(char matching);
     // look into - how to cut down on addToken amount
     void addTokenHelper(Token t);
-    void addToken(string str, bool isIdentifier);
+    void addToken(string str, TokenTextType tokenTextType);
     void addToken(TokenType tokenType);
     void addToken(int i);
     void addToken(double d);
@@ -31,6 +38,7 @@ public:
     void prev();
     char peek();
     char peekNext();
+    void scanComment();
     Scanner(std::ifstream *file);
     Scanner(){};
     char *charArray;

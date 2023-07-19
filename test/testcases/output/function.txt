@@ -6,7 +6,7 @@ comma ,
 identifier y
 right_paren )
 colon :
-tab tab
+tab \t
 return return
 identifier x
 plus +

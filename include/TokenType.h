@@ -66,7 +66,7 @@ enum TokenType
     PLUS,
     MINUS,
     ASTERISK,
-
+    HASH,
     SLASH,
     DOUBLE_SLASH,
     PERCENT,
