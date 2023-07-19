@@ -53,9 +53,13 @@ TEST(Scanner, IdentifiesTabs)
 {
 	testPythonFile("./testcases/input/tab.py", "./testcases/output/tab.txt");
 }
-TEST(Scanner, IdentifiesComents)
+TEST(Scanner, IdentifiesComments)
 {
 	testPythonFile("./testcases/input/comment.py", "./testcases/output/comment.txt");
+}
+TEST(Scanner, IdentifiesStrings)
+{
+	testPythonFile("./testcases/input/string.py", "./testcases/output/string.txt");
 }
 
 int main(int argc, char *argv[])

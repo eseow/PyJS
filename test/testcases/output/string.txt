@@ -1,0 +1,6 @@
+identifier 'x'
+equal =
+string 'this is a string'
+identifier 'y'
+equal =
+int 2

@@ -93,6 +93,12 @@ void Scanner::consumeToken()
     case '\t':
         addToken(TokenType::TAB);
         break;
+    case '\"':
+        scanString();
+        break;
+    case '\'':
+        scanString();
+        break;
     case '+':
         if (matchNext('='))
         {
@@ -310,6 +316,13 @@ void Scanner::scanNumber()
 }
 void Scanner::scanString()
 {
+
+    bool isOneTick = false;
+    if (peek() == '\'')
+    {
+        isOneTick = true;
+    }
+    advance();
     start = current;
     while (peek() != EOF_CHARACTER && !(peek() == '\"' || peek() == '\''))
     {
@@ -323,7 +336,6 @@ void Scanner::scanString()
     int span = current - start;
     string str = (fileContents.substr(start, span));
     addToken(str, TokenTextType::TEXT_STRING);
-    prev();
 }
 void Scanner::scanComment()
 {
@@ -336,7 +348,6 @@ void Scanner::scanComment()
     int span = current - start;
     string str = (fileContents.substr(start, span));
     addToken(str, TokenTextType::TEXT_COMMENT);
-    prev();
 }
 void Scanner::scanIdentifier()
 {
