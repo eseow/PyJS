@@ -61,6 +61,10 @@ TEST(Scanner, IdentifiesStrings)
 {
 	testPythonFile("./testcases/input/string.py", "./testcases/output/string.txt");
 }
+TEST(Scanner, Fizzbuzz)
+{
+	testPythonFile("./testcases/input/fizzbuzz.py", "./testcases/output/fizzbuzz.txt");
+}
 
 int main(int argc, char *argv[])
 {

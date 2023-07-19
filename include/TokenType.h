@@ -61,6 +61,7 @@ enum TokenType
     WHILE,
     WITH,
     YIELD,
+    RANGE,
 
     // Operators and Delimiters.
     PLUS,
@@ -77,6 +78,8 @@ enum TokenType
     GREATER,
     GREATER_EQUAL,
     LESS,
+    MODULO,
+    PRINT,
     LESS_EQUAL,
     PLUS_EQUAL,
     MINUS_EQUAL,

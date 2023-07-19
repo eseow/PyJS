@@ -6,6 +6,9 @@
 #include <sstream>
 
 std::map<TokenType, std::string> *Token::tokenTypeMap = new std::map<TokenType, std::string>({// TokenTypes
+                                                                                              {TokenType::PRINT, "print"},
+                                                                                              {TokenType::MODULO, "modulo"},
+                                                                                              {TokenType::RANGE, "range"},
                                                                                               {TokenType::HASH, "comment"},
                                                                                               {TokenType::TAB, "tab"},
                                                                                               {TokenType::IDENTIFIER, "identifier"},
@@ -87,6 +90,9 @@ std::map<TokenType, std::string> *Token::tokenTypeMap = new std::map<TokenType, 
                                                                                               {TokenType::ARROW, "arrow"},
                                                                                               {TokenType::AT, "at"}});
 std::map<TokenType, std::string> *Token::tokenLexemeMap = new std::map<TokenType, std::string>({// Literals
+                                                                                                {TokenType::PRINT, "print"},
+                                                                                                {TokenType::MODULO, "%"},
+                                                                                                {TokenType::RANGE, "range"},
                                                                                                 {TokenType::HASH, "#"},
                                                                                                 {TokenType::TAB, "\\t"},
                                                                                                 {TokenType::IDENTIFIER, "identifier"},
