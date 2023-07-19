@@ -35,12 +35,27 @@ void testPythonFile(string filePath, string expectedFilePath)
 	EXPECT_EQ(str, buffer.str());
 }
 
-TEST(Scanner, TokenizesPythonCode)
+TEST(Scanner, IdentifiesVariableAssignment)
 {
 	testPythonFile("./testcases/input/basic.py", "./testcases/output/basic.txt");
+}
+TEST(Scanner, IdentifiesFunctions)
+{
+
 	testPythonFile("./testcases/input/function.py", "./testcases/output/function.txt");
+}
+TEST(Scanner, IdentifiesDoubles)
+{
+
 	testPythonFile("./testcases/input/decimal.py", "./testcases/output/decimal.txt");
+}
+TEST(Scanner, IdentifiesTabs)
+{
 	testPythonFile("./testcases/input/tab.py", "./testcases/output/tab.txt");
+}
+TEST(Scanner, IdentifiesComents)
+{
+	testPythonFile("./testcases/input/comment.py", "./testcases/output/comment.txt");
 }
 
 int main(int argc, char *argv[])

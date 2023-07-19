@@ -91,7 +91,6 @@ void Scanner::consumeToken()
         scanComment();
         break;
     case '\t':
-        std::cout << " got a tab ";
         addToken(TokenType::TAB);
         break;
     case '+':
@@ -251,7 +250,6 @@ void Scanner::consumeToken()
         addToken(TokenType::SEMICOLON);
         break;
     case ' ':
-        std::cout << "got a space";
         break;
     case '\n':
         line++;
@@ -329,6 +327,7 @@ void Scanner::scanString()
 }
 void Scanner::scanComment()
 {
+    advance();
     start = current;
     while (peek() != EOF_CHARACTER && !(peek() == '\n'))
     {

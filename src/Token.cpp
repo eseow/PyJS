@@ -199,21 +199,27 @@ T Token::getLiteral()
 }
 std::string Token::toString()
 {
+    if (type == TokenType::DOUBLE)
+    {
+
+        std::ostringstream oss;
+        oss << std::fixed << lexeme;
+
+        std::string result = oss.str();
+        size_t pos = result.find_last_not_of('0');
+        if (pos != std::string::npos && result[pos] == '.')
+            pos++;
+        result = result.substr(0, pos + 1);
+
+        return "double " + result;
+    }
     if (tokenTypeMap->count(type) > 0)
     {
         std::string str = tokenTypeMap->at(type);
-        if (str == "double")
+
+        if (str == "string" || str == "comment" || str == "identifier")
         {
-            std::ostringstream oss;
-            oss << std::fixed << lexeme;
-
-            std::string result = oss.str();
-            size_t pos = result.find_last_not_of('0');
-            if (pos != std::string::npos && result[pos] == '.')
-                pos++;
-            result = result.substr(0, pos + 1);
-
-            return str + " " + result;
+            return str + " " + "'" + lexeme + "'";
         }
         return str + " " + lexeme;
     }

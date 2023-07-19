@@ -1,1 +1,5 @@
-hash
+comment ' comment 1'
+identifier 'x'
+equal =
+double 2.0
+comment ' comment 2'
