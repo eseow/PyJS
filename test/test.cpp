@@ -65,6 +65,12 @@ TEST(Scanner, DoesFizzbuzz)
 {
     testPythonFile("./testcases/input/fizzbuzz.py", "./testcases/output/fizzbuzz.txt");
 }
+/*
+TEST(Scanner, DetectsScannerException)
+{
+    testPythonFile("./testcases/input/scannerException.py", "./testcases/output/scannerException.txt");
+}
+*/
 
 int main(int argc, char *argv[])
 {

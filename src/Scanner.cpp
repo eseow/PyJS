@@ -283,7 +283,7 @@ void Scanner::scanNumber()
     {
         if (peek() == '.' && foundDecimalPoint)
         {
-            throw ScannerException();
+            throw ScannerException(line, start, "Number has multiple decimal points");
         }
         if (peek() == '.' && !foundDecimalPoint)
         {
@@ -331,7 +331,7 @@ void Scanner::scanString()
     }
     if (peek() == '\0')
     {
-        throw ScannerException();
+        throw ScannerException(line, start, "String is missing other quotes");
     }
     // +1 because start = 25, current = 26 - we would like to get char 25 (char 26 broke something)
     int span = current - start;
@@ -439,7 +439,16 @@ void Scanner::scanTokens()
         // DONE - how to skip spaces?
         // just advance if see space
         start = current;
-        this->consumeToken();
+        try
+        {
+            this->consumeToken();
+        }
+        catch (ScannerException error)
+        {
+            std::cout << "\n"
+                      << error.what();
+            return;
+        }
         advance();
     }
 }
