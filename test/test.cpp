@@ -72,6 +72,13 @@ TEST(Scanner, DetectsScannerException)
 }
 */
 
+/*
+
+intermediate representation to convert py -> inter -> js
+AST for "for ... in ..." - "def ... (n?)"
+
+*/
+
 int main(int argc, char *argv[])
 {
     ::testing::InitGoogleTest(&argc, argv);

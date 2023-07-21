@@ -5,7 +5,8 @@
 #include <iostream>
 #include <sstream>
 
-std::map<TokenType, std::string> *Token::tokenTypeMap = new std::map<TokenType, std::string>({// TokenTypes
+std::map<TokenType, std::string> *Token::tokenTypeMap = new std::map<TokenType, std::string>({// TokenType to string
+                                                                                              {TokenType::NEWLINE, "newline"},
                                                                                               {TokenType::PRINT, "print"},
                                                                                               {TokenType::MODULO, "modulo"},
                                                                                               {TokenType::RANGE, "range"},
@@ -90,6 +91,7 @@ std::map<TokenType, std::string> *Token::tokenTypeMap = new std::map<TokenType, 
                                                                                               {TokenType::ARROW, "arrow"},
                                                                                               {TokenType::AT, "at"}});
 std::map<TokenType, std::string> *Token::tokenLexemeMap = new std::map<TokenType, std::string>({// Literals
+                                                                                                {TokenType::NEWLINE, "\n"},
                                                                                                 {TokenType::PRINT, "print"},
                                                                                                 {TokenType::MODULO, "%"},
                                                                                                 {TokenType::RANGE, "range"},

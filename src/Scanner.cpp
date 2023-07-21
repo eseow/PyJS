@@ -258,6 +258,7 @@ void Scanner::consumeToken()
     case ' ':
         break;
     case '\n':
+        addToken(TokenType::NEWLINE);
         line++;
         break;
 

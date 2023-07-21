@@ -105,6 +105,8 @@ enum TokenType
     SEMICOLON,
     ARROW,
     AT,
-    TAB
+    TAB,
+    NEWLINE
+
 };
 #endif

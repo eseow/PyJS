@@ -4,6 +4,7 @@ left_paren (
 identifier 'n'
 right_paren )
 colon :
+newline \n
 tab \t
 for for
 identifier 'i'
