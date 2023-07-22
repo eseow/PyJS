@@ -2,8 +2,6 @@
 #define EXPR_H
 class Expr
 {
-public:
-private:
 };
 #endif
 /*
@@ -39,7 +37,7 @@ inline -> comparison "if" comparison "else" inline | comparison
 comparison -> comparison (< | <= | >= | > ) equality | equality
 equality -> equality (!= | ==) binary | binary
 binary -> binary and unary | binary or unary | unary
-unary -> - unary | factor
+unary -> - unary | not unary | factor
 factor -> factor * term | factor / term | term
 term -> term + expr | term - expr | expr
 primary -> IDENTIFIER | NUMBER | BOOLEAN | STRING
