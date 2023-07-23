@@ -13,14 +13,14 @@ Parser::Parser(std::vector<Token> *tokens)
 }
 void Parser::parse()
 {
-    std::vector<Expr> exprs;
-    while (current < tokens->capacity())
+    while (current < (int)tokens->size())
     {
         try
         {
             Expr *expr = parseRootExpr();
+            exprs.push_back(expr);
         }
-        catch (ParserException parserException)
+        catch (ParserException &parserException)
         {
             std::cout << parserException.what();
         };
@@ -29,7 +29,6 @@ void Parser::parse()
 }
 Expr *Parser::parseRootExpr()
 {
-    Expr *rootExpr;
 
     return parseInlineExpr();
 };
@@ -57,15 +56,15 @@ Expr *Parser::parsePrimaryExpr()
     switch (type)
     {
     case TokenType::STRING:
-        return Primary(PrimaryType::STRING, token.getLiteral<std::string>());
+        return new Primary(PrimaryType::PRIMARY_STRING, token.getLiteral<std::string>());
     case TokenType::IDENTIFIER:
-        return Primary(PrimaryType::IDENTIFIER, token.getLiteral<std::string>());
+        return new Primary(PrimaryType::PRIMARY_IDENTIFIER, token.getLiteral<std::string>());
     case TokenType::INT:
-        return Primary(PrimaryType::NUMBER, token.getLiteral<double>());
+        return new Primary(PrimaryType::PRIMARY_DOUBLE, token.getLiteral<double>());
     case TokenType::DOUBLE:
-        return Primary(PrimaryType::NUMBER, token.getLiteral<int>());
+        return new Primary(PrimaryType::PRIMARY_INT, token.getLiteral<int>());
     case TokenType::BOOL:
-        return Primary(PrimaryType::BOOLEAN, token.getLiteral<bool>());
+        return new Primary(PrimaryType::PRIMARY_BOOLEAN, token.getLiteral<bool>());
     default:
         throw ParserException(token.getLine(), token.getColumn(), "Invalid primary expr for token" + token.toString());
     }
@@ -83,6 +82,7 @@ bool Parser::matchTokenType(TokenType type)
 
 Expr *Parser::parseComparisonExpr()
 {
+    return nullptr;
 }
 
 void Parser::consume(TokenType type, std::string errorString)
@@ -97,4 +97,9 @@ void Parser::consume(TokenType type, std::string errorString)
 void Parser::advance()
 {
     current++;
+}
+
+std::vector<Expr *> Parser::getExprs()
+{
+    return exprs;
 }

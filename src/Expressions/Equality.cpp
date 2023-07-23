@@ -1,7 +1,7 @@
 #include "Expressions/Equality.h"
 #include "Expressions/Expr.h"
 #include "Token.h"
-EqualityExpr::EqualityExpr(Expr * left, Expr right, Token equalityOperator)
+EqualityExpr::EqualityExpr(Expr *left, Expr *right, Token equalityOperator)
 {
     this->left = left;
     this->right = right;

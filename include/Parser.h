@@ -6,23 +6,28 @@
 class Parser
 {
 public:
+    Parser(std::vector<Token> *tokens);
+    void parse();
+    std::vector<Expr *> getExprs();
+
+private:
     Expr *parseRootExpr();
     Expr *parseInlineExpr();
+
     Expr *parseComparisonExpr();
     Expr *parseEqualityExpr();
     Expr *parseBinaryExpr();
     Expr *parseUnaryExpr();
     Expr *parseTermExpr();
     Expr *parsePrimaryExpr();
-    Parser(std::vector<Token> *tokens);
     Token peek();
     bool matchTokenType(TokenType type);
     void advance();
-    void parse();
     void consume(TokenType type, std::string errorString);
 
 private:
     std::vector<Token> *tokens;
     int current;
+    std::vector<Expr *> exprs;
 };
 #endif

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include "../include/Scanner.h"
+#include "Parser.h"
 using std::string;
 
 int main(int argc, char *argv[])
@@ -14,7 +15,14 @@ int main(int argc, char *argv[])
         {
             Scanner *scanner = new Scanner(&file);
             scanner->scanTokens();
-            scanner->printTokens();
+            // scanner->printTokens();
+            // Parser parser(scanner->getTokens());
+            // parser.parse();
+            /*
+            for(int i = 0;i < parser.getExprs().size();i++){
+
+            }
+            */
         }
         else
         {

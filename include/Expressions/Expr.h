@@ -4,7 +4,7 @@
 class Expr
 {
 public:
-    std::string virtual toString() = 0;
+    virtual std::string toString() = 0;
 };
 #endif
 /*

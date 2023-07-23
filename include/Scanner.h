@@ -43,6 +43,7 @@ public:
     Scanner(){};
     char *charArray;
     void printTokens();
+    vector<Token> *getTokens();
     virtual string tokensToString();
 
 private:

@@ -332,9 +332,9 @@ void Scanner::scanString()
     {
         advance();
     }
-    if (peek() == '\0')
+    if (peek() == '\0' || (peek() == '\"' && isOneTick) || (peek() == '\'' && !isOneTick))
     {
-        throw ScannerException(line, start, "String is missing other quotes");
+        throw ScannerException(line, column, "String is missing other quotes");
     }
     // +1 because start = 25, current = 26 - we would like to get char 25 (char 26 broke something)
     int span = current - start;
@@ -446,7 +446,7 @@ void Scanner::scanTokens()
         {
             this->consumeToken();
         }
-        catch (ScannerException error)
+        catch (ScannerException &error)
         {
             std::cout << "\n"
                       << error.what();
@@ -474,9 +474,14 @@ string Scanner::tokensToString()
 {
 
     string ret = "";
-    for (int i = 0; i < tokens->size(); i++)
+    for (int i = 0; i < (int)tokens->size(); i++)
     {
         ret += tokens->at(i).toString() + "\n";
     }
     return ret.substr(0, ret.length() - 1);
+}
+
+vector<Token> *Scanner::getTokens()
+{
+    return tokens;
 }

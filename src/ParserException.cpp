@@ -2,13 +2,14 @@
 #include <iostream>
 #include <string>
 
-ParserException::ParserException(Token token, std::string exceptionDetails)
+ParserException::ParserException(int line, int column, std::string exceptionDetails)
 {
     this->exceptionDetails = exceptionDetails;
-    this->token = token;
+    this->line = line;
+    this->column = column;
 }
 
 const char *ParserException::what()
 {
-    std::cout << exceptionDetails;
+    return exceptionDetails.c_str();
 }

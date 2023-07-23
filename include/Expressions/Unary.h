@@ -5,8 +5,8 @@
 class UnaryExpr : public Expr
 {
 public:
-    UnaryExpr(Expr * body, Token unaryOperator);
-    Expr body;
+    UnaryExpr(Expr *body, Token unaryOperator);
+    Expr *body;
     Token unaryOperator;
 };
 #endif

@@ -11,5 +11,6 @@ ScannerException::ScannerException(int line, int column, std::string exceptionDe
 
 const char *ScannerException::what()
 {
-    std::cout << exceptionDetails << " on line " << line << ":" << column;
+    std::string str = exceptionDetails + " on line " + std::to_string(line) + ":" + std::to_string(column);
+    return str.c_str();
 }
