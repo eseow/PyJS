@@ -2,11 +2,12 @@
 #define EQUALITY_H
 #include "Expressions/Expr.h"
 #include "Token.h"
-class EqualityExpr : Expr
+class EqualityExpr : public Expr
 {
 public:
-    Expr left;
-    Expr right;
+    EqualityExpr(Expr *left, Expr *right, Token equalityOperator);
+    Expr *left;
+    Expr *right;
     Token equalityOperator;
 };
 #endif

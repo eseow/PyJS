@@ -35,6 +35,7 @@ bool isValidVariable(char c)
 
 Scanner::Scanner(std::ifstream *file)
 {
+    this->column = 0;
     this->current = 0;
     this->start = 0;
     this->line = 0;
@@ -260,6 +261,7 @@ void Scanner::consumeToken()
     case '\n':
         addToken(TokenType::NEWLINE);
         line++;
+        column = 0;
         break;
 
     default:
@@ -395,13 +397,13 @@ void Scanner::addToken(string str, TokenTextType tokenTextType)
     switch (tokenTextType)
     {
     case TokenTextType::TEXT_COMMENT:
-        t = new Token(TokenType::HASH, str, line, str);
+        t = new Token(TokenType::HASH, str, line, column, str);
         break;
     case TokenTextType::TEXT_STRING:
-        t = new Token(TokenType::STRING, str, line, str);
+        t = new Token(TokenType::STRING, str, line, column, str);
         break;
     case TokenTextType::TEXT_IDENTIFIER:
-        t = new Token(TokenType::IDENTIFIER, str, line, nullptr);
+        t = new Token(TokenType::IDENTIFIER, str, line, column, nullptr);
         break;
     default:
         break;
@@ -414,23 +416,23 @@ void Scanner::addToken(TokenType tokenType)
     if (lexemeLookUp->count(tokenType) != 0)
     {
         string s = lexemeLookUp->at(tokenType);
-        Token t(tokenType, s, line, nullptr);
+        Token t(tokenType, s, line, column, nullptr);
         addTokenHelper(t);
     }
 }
 void Scanner::addToken(int i)
 {
-    Token t(TokenType::INT, std::to_string(i), line, i);
+    Token t(TokenType::INT, std::to_string(i), line, column, i);
     addTokenHelper(t);
 }
 void Scanner::addToken(double d)
 {
-    Token t(TokenType::DOUBLE, std::to_string(d), line, d);
+    Token t(TokenType::DOUBLE, std::to_string(d), line, column, d);
     addTokenHelper(t);
 }
 void Scanner::addToken(bool b)
 {
-    Token t(TokenType::BOOL, std::to_string(b), line, b);
+    Token t(TokenType::BOOL, std::to_string(b), line, column, b);
     addTokenHelper(t);
 }
 void Scanner::scanTokens()
@@ -456,6 +458,7 @@ void Scanner::scanTokens()
 void Scanner::advance()
 {
     this->current++;
+    this->column++;
 }
 void Scanner::prev()
 {

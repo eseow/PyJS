@@ -2,9 +2,10 @@
 #define UNARY_EXPR_H
 #include "Expressions/Expr.h"
 #include "Token.h"
-class UnaryExpr : Expr
+class UnaryExpr : public Expr
 {
 public:
+    UnaryExpr(Expr * body, Token unaryOperator);
     Expr body;
     Token unaryOperator;
 };

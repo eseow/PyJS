@@ -4,6 +4,11 @@
 #include <string>
 class ExpressionPrinter
 {
-    std::string printExpr(Expr expr);
+public:
+    ExpressionPrinter(ExpressionPrinterVisitor visitor);
+    std::string printExpr(Expr *expr);
+
+private:
+    ExpressionPrinterVisior visitor;
 };
 #endif

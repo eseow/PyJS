@@ -2,11 +2,12 @@
 #define TERM_EXPR_H
 #include "Expressions/Expr.h"
 #include "Token.h"
-class TermExpr : Expr
+class TermExpr : public Expr
 {
 public:
-    Expr left;
-    Expr right;
+    TermExpr(Expr *left, Expr *right, Token termOperator);
+    Expr *left;
+    Expr *right;
     Token termOperator;
 };
 #endif

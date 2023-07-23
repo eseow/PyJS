@@ -2,11 +2,12 @@
 #define FACTOR_EXPR_H
 #include "Expressions/Expr.h"
 #include "Token.h"
-class FactorExpr : Expr
+class FactorExpr : public Expr
 {
 public:
-    Expr left;
-    Expr right;
+    FactorExpr(Expr *left, Expr *right, Token factorOperator);
+    Expr *left;
+    Expr *right;
     Token factorOperator;
 };
 #endif

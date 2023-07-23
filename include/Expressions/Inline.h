@@ -1,11 +1,13 @@
 #ifndef INLINE_EXPR_H
 #define INLINE_EXPR_H
 #include "Expressions/Expr.h"
-class InlineExpr : Expr
+class InlineExpr : public Expr
 {
 public:
-    Expr if_case;
-    Expr if_conditional;
-    Expr else_case;
+    InlineExpr(Expr *if_case, Expr *if_conditional, Expr *else_case);
+    Expr *if_case;
+    Expr *if_conditional;
+    Expr *else_case;
+    std::string toString() override;
 };
 #endif

@@ -179,23 +179,26 @@ std::map<TokenType, std::string> *Token::tokenLexemeMap = new std::map<TokenType
                                                                                                 {TokenType::SEMICOLON, ";"},
                                                                                                 {TokenType::ARROW, "->"},
                                                                                                 {TokenType::AT, "@"}});
-Token::Token(TokenType type, std::string lexeme, int lineNumber, void *literal)
+Token::Token(TokenType type, std::string lexeme, int lineNumber, int column, void *literal)
 {
+    this->column = column;
     this->type = type;
     this->lexeme = lexeme;
     this->lineNumber = lineNumber;
     this->literal = literal;
 }
-Token::Token(TokenType type, std::string lexeme, int lineNumber, string literal)
+Token::Token(TokenType type, std::string lexeme, int lineNumber, int column, string literal)
 {
     this->type = type;
+    this->column = column;
     this->lexeme = lexeme;
     this->lineNumber = lineNumber;
     this->literal = literal;
 }
-Token::Token(TokenType type, std::string lexeme, int lineNumber, int literal)
+Token::Token(TokenType type, std::string lexeme, int lineNumber, int column, int literal)
 {
     this->type = type;
+    this->column = column;
     this->lexeme = lexeme;
     this->lineNumber = lineNumber;
     this->literal = literal;
@@ -232,4 +235,18 @@ std::string Token::toString()
         return str + " " + lexeme;
     }
     return "No TokenType" + lexeme;
+}
+
+TokenType Token::getTokenType()
+{
+    return type;
+}
+
+int Token::getLine()
+{
+    return lineNumber;
+}
+int Token::getColumn()
+{
+    return column;
 }

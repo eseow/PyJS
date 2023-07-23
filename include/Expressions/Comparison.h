@@ -2,11 +2,12 @@
 #define COMPARISON_EXPR_H
 #include "Expressions/Expr.h"
 #include "Token.h"
-class ComparisonExpr : Expr
+class ComparisonExpr : public Expr
 {
 public:
-    Expr left;
-    Expr right;
+    ComparisonExpr(Expr *left, Expr *right, Token comparisonOperator);
+    Expr *left;
+    Expr *right;
     Token comparisonOperator;
 };
 #endif

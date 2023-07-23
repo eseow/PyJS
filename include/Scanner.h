@@ -47,6 +47,7 @@ public:
 
 private:
     vector<Token> *tokens;
+    int column;
     int current;
     int start;
     int line;

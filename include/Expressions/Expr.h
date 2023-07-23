@@ -1,7 +1,10 @@
 #ifndef EXPR_H
+#include <string>
 #define EXPR_H
 class Expr
 {
+public:
+    std::string virtual toString() = 0;
 };
 #endif
 /*
@@ -34,6 +37,12 @@ varStmt -> IDENTIFIER = EXPR
 exprStmt -> expr\n
 expr -> inline
 inline -> comparison "if" comparison "else" inline | comparison
+
+(5 if True else (6 if True else 7)) -> Right to left
+
+((5 if True else 6) if True else 7) -> Left to right
+
+
 comparison -> comparison (< | <= | >= | > ) equality | equality
 equality -> equality (!= | ==) binary | binary
 binary -> binary and unary | binary or unary | unary
