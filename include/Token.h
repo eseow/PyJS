@@ -3,18 +3,19 @@
 #include "./TokenType.h"
 #include <iostream>
 #include <variant>
-using std::string;
+#include <string>
 
 class Token
 {
 public:
     static std::map<TokenType, std::string> *tokenTypeMap;
     static std::map<TokenType, std::string> *tokenLexemeMap;
-    string toString();
+    std::string toString();
     Token();
-    Token(TokenType type, string lexeme, int lineNumber, int column, void *literal);
-    Token(TokenType type, string lexeme, int lineNumber, int column, string literal);
-    Token(TokenType type, string lexeme, int lineNumber, int column, int literal);
+    Token(TokenType type, std::string lexeme, int lineNumber, int column, bool literal);
+    Token(TokenType type, std::string lexeme, int lineNumber, int column, double literal);
+    Token(TokenType type, std::string lexeme, int lineNumber, int column, std::string literal);
+    Token(TokenType type, std::string lexeme, int lineNumber, int column, int literal);
     template <typename T>
     T getLiteral();
     TokenType getTokenType();
@@ -26,7 +27,7 @@ private:
     std::string lexeme;
     int lineNumber;
     int column;
-    std::variant<int, std::string, double, void *> literal;
+    std::variant<int, std::string, double, bool> literal;
 };
 
 #endif

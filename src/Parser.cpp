@@ -5,6 +5,7 @@
 #include <vector>
 #include "ParserException.h"
 #include <iostream>
+#include "Token.h"
 
 Parser::Parser(std::vector<Token> *tokens)
 {

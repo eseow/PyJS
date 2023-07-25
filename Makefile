@@ -3,7 +3,7 @@ CXX = g++
 TARGET = main 
 DEBUG = debug
 
-SRCS  = $(shell find ./src     -type f -name *.cpp)
+SRCS  = $(shell find ./src     -type f -name *.cpp | grep -vi "Parser*")
 OBJS = $(SRCS:.cpp=.o)
 DEPS = Makefile.depend
 

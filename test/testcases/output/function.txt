@@ -6,11 +6,13 @@ comma ,
 identifier 'y'
 right_paren )
 colon :
+newline \n
 tab \t
 return return
 identifier 'x'
 plus +
 identifier 'y'
+newline \n
 identifier 'add'
 left_paren (
 int 1

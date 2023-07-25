@@ -2,4 +2,5 @@ comment ' comment 1'
 identifier 'x'
 equal =
 double 2.0
+newline \n
 comment ' comment 2'

@@ -12,6 +12,8 @@ namespace fs = std::filesystem;
 
 bool fileExists(const std::string &filePath)
 {
+
+    std::cout << "Running 4";
     return fs::exists(filePath) && fs::is_regular_file(filePath);
 }
 
@@ -25,8 +27,7 @@ void testPythonFile(string filePath, string expectedFilePath)
     std::ifstream file;
     file.open(filePath);
 
-    std::ifstream expectedFile;
-    expectedFile.open(expectedFilePath);
+    std::ifstream expectedFile(expectedFilePath);
     std::stringstream buffer;
     buffer << expectedFile.rdbuf();
     NiceMock<ScannerMock> scanner(&file);
@@ -65,12 +66,10 @@ TEST(Scanner, DoesFizzbuzz)
 {
     testPythonFile("./testcases/input/fizzbuzz.py", "./testcases/output/fizzbuzz.txt");
 }
-/*
 TEST(Scanner, DetectsScannerException)
 {
     testPythonFile("./testcases/input/scannerException.py", "./testcases/output/scannerException.txt");
 }
-*/
 
 /*
 

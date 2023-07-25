@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
         {
             Scanner *scanner = new Scanner(&file);
             scanner->scanTokens();
-            // scanner->printTokens();
+            scanner->printTokens();
             // Parser parser(scanner->getTokens());
             // parser.parse();
             /*

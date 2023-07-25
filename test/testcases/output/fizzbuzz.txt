@@ -18,6 +18,7 @@ plus +
 int 1
 right_paren )
 colon :
+newline \n
 tab \t
 tab \t
 if if
@@ -33,6 +34,7 @@ int 5
 double_equal ==
 int 0
 colon :
+newline \n
 tab \t
 tab \t
 tab \t
@@ -40,6 +42,7 @@ print print
 left_paren (
 string 'FizzBuzz'
 right_paren )
+newline \n
 tab \t
 tab \t
 elif elif
@@ -49,6 +52,7 @@ int 3
 double_equal ==
 int 0
 colon :
+newline \n
 tab \t
 tab \t
 tab \t
@@ -56,6 +60,7 @@ print print
 left_paren (
 string 'Fizz'
 right_paren )
+newline \n
 tab \t
 tab \t
 elif elif
@@ -65,6 +70,7 @@ int 5
 double_equal ==
 int 0
 colon :
+newline \n
 tab \t
 tab \t
 tab \t
@@ -72,10 +78,12 @@ print print
 left_paren (
 string 'Buzz'
 right_paren )
+newline \n
 tab \t
 tab \t
 else else
 colon :
+newline \n
 tab \t
 tab \t
 tab \t
@@ -83,8 +91,11 @@ print print
 left_paren (
 identifier 'i'
 right_paren )
+newline \n
+newline \n
 comment ' Test the function'
 identifier 'fizzbuzz'
 left_paren (
 int 20
 right_paren )
+newline \n

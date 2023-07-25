@@ -1,6 +1,7 @@
 identifier 'x'
 equal =
 string 'this is a string'
+newline \n
 identifier 'y'
 equal =
 int 2

@@ -403,7 +403,7 @@ void Scanner::addToken(string str, TokenTextType tokenTextType)
         t = new Token(TokenType::STRING, str, line, column, str);
         break;
     case TokenTextType::TEXT_IDENTIFIER:
-        t = new Token(TokenType::IDENTIFIER, str, line, column, nullptr);
+        t = new Token(TokenType::IDENTIFIER, str, line, column, str);
         break;
     default:
         break;
@@ -416,7 +416,7 @@ void Scanner::addToken(TokenType tokenType)
     if (lexemeLookUp->count(tokenType) != 0)
     {
         string s = lexemeLookUp->at(tokenType);
-        Token t(tokenType, s, line, column, nullptr);
+        Token t(tokenType, s, line, column, s);
         addTokenHelper(t);
     }
 }

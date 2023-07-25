@@ -1,5 +1,5 @@
-#include "../include/Token.h"
-#include "../include/TokenType.h"
+#include "Token.h"
+#include "TokenType.h"
 #include <map>
 #include <variant>
 #include <iostream>
@@ -91,7 +91,7 @@ std::map<TokenType, std::string> *Token::tokenTypeMap = new std::map<TokenType, 
                                                                                               {TokenType::ARROW, "arrow"},
                                                                                               {TokenType::AT, "at"}});
 std::map<TokenType, std::string> *Token::tokenLexemeMap = new std::map<TokenType, std::string>({// Literals
-                                                                                                {TokenType::NEWLINE, "\n"},
+                                                                                                {TokenType::NEWLINE, "\\n"},
                                                                                                 {TokenType::PRINT, "print"},
                                                                                                 {TokenType::MODULO, "%"},
                                                                                                 {TokenType::RANGE, "range"},
@@ -179,7 +179,7 @@ std::map<TokenType, std::string> *Token::tokenLexemeMap = new std::map<TokenType
                                                                                                 {TokenType::SEMICOLON, ";"},
                                                                                                 {TokenType::ARROW, "->"},
                                                                                                 {TokenType::AT, "@"}});
-Token::Token(TokenType type, std::string lexeme, int lineNumber, int column, void *literal)
+Token::Token(TokenType type, std::string lexeme, int lineNumber, int column, bool literal)
 {
     this->column = column;
     this->type = type;
@@ -187,7 +187,7 @@ Token::Token(TokenType type, std::string lexeme, int lineNumber, int column, voi
     this->lineNumber = lineNumber;
     this->literal = literal;
 }
-Token::Token(TokenType type, std::string lexeme, int lineNumber, int column, string literal)
+Token::Token(TokenType type, std::string lexeme, int lineNumber, int column, std::string literal)
 {
     this->type = type;
     this->column = column;
@@ -203,11 +203,29 @@ Token::Token(TokenType type, std::string lexeme, int lineNumber, int column, int
     this->lineNumber = lineNumber;
     this->literal = literal;
 }
+Token::Token(TokenType type, std::string lexeme, int lineNumber, int column, double literal)
+{
+    this->type = type;
+    this->column = column;
+    this->lexeme = lexeme;
+    this->lineNumber = lineNumber;
+    this->literal = literal;
+}
+
+Token::Token()
+{
+}
 template <typename T>
 T Token::getLiteral()
 {
     return std::get<T>(literal);
 }
+
+template double Token::getLiteral<double>();
+template bool Token::getLiteral<bool>();
+template int Token::getLiteral<int>();
+template std::string Token::getLiteral<std::string>();
+
 std::string Token::toString()
 {
     if (type == TokenType::DOUBLE)
