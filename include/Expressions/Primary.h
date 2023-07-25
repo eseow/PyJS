@@ -18,7 +18,7 @@ public:
     Primary(PrimaryType type, int value);
     Primary(PrimaryType type, bool value);
     Primary(PrimaryType type, double value);
-    Primary(PrimaryType type, string value);
+    Primary(PrimaryType type, std::string value);
     PrimaryType type;
     std::string toString() override;
     static std::map<PrimaryType, std::string> primaryTypeStrings;

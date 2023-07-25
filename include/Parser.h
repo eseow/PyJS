@@ -11,9 +11,9 @@ public:
     std::vector<Expr *> getExprs();
 
 private:
+    bool finishedParsing();
     Expr *parseRootExpr();
     Expr *parseInlineExpr();
-
     Expr *parseComparisonExpr();
     Expr *parseEqualityExpr();
     Expr *parseBinaryExpr();
@@ -24,8 +24,6 @@ private:
     bool matchTokenType(TokenType type);
     void advance();
     void consume(TokenType type, std::string errorString);
-
-private:
     std::vector<Token> *tokens;
     int current;
     std::vector<Expr *> exprs;

@@ -15,19 +15,19 @@ std::string ExpressionVisitor::accept(Primary *expr)
     switch (type)
     {
     case PrimaryType::PRIMARY_STRING:
-        val += std::get<std::string>(value);
+        val = (std::get<std::string>(value));
         break;
     case PrimaryType::PRIMARY_DOUBLE:
-        val += std::get<double>(value);
+        val = std::to_string(std::get<double>(value));
         break;
     case PrimaryType::PRIMARY_INT:
-        val += std::get<int>(value);
+        val = std::to_string(std::get<int>(value));
         break;
     case PrimaryType::PRIMARY_BOOLEAN:
-        val += std::get<bool>(value);
+        val = std::to_string(std::get<bool>(value));
         break;
     case PrimaryType::PRIMARY_IDENTIFIER:
-        val += std::get<std::string>(value);
+        val = std::get<std::string>(value);
         break;
     default:
         break;

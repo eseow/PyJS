@@ -16,13 +16,13 @@ int main(int argc, char *argv[])
             Scanner *scanner = new Scanner(&file);
             scanner->scanTokens();
             scanner->printTokens();
-            // Parser parser(scanner->getTokens());
-            // parser.parse();
-            /*
-            for(int i = 0;i < parser.getExprs().size();i++){
-
+            Parser parser(scanner->getTokens());
+            parser.parse();
+            std::vector<Expr *> exprs = parser.getExprs();
+            for (int i = 0; i < (int)exprs.size(); i++)
+            {
+                std::cout << exprs.at(i)->toString();
             }
-            */
         }
         else
         {

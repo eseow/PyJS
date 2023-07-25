@@ -14,7 +14,7 @@ Parser::Parser(std::vector<Token> *tokens)
 }
 void Parser::parse()
 {
-    while (current < (int)tokens->size())
+    while (!finishedParsing())
     {
         try
         {
@@ -52,23 +52,30 @@ Expr *Parser::parseInlineExpr()
 Expr *Parser::parsePrimaryExpr()
 {
     Token token = peek();
-    advance();
+    Primary *primary;
     TokenType type = token.getTokenType();
     switch (type)
     {
     case TokenType::STRING:
-        return new Primary(PrimaryType::PRIMARY_STRING, token.getLiteral<std::string>());
+        primary = new Primary(PrimaryType::PRIMARY_STRING, token.getLiteral<std::string>());
+        break;
     case TokenType::IDENTIFIER:
-        return new Primary(PrimaryType::PRIMARY_IDENTIFIER, token.getLiteral<std::string>());
+        primary = new Primary(PrimaryType::PRIMARY_IDENTIFIER, token.getLiteral<std::string>());
+        break;
     case TokenType::INT:
-        return new Primary(PrimaryType::PRIMARY_DOUBLE, token.getLiteral<double>());
+        primary = new Primary(PrimaryType::PRIMARY_INT, token.getLiteral<int>());
+        break;
     case TokenType::DOUBLE:
-        return new Primary(PrimaryType::PRIMARY_INT, token.getLiteral<int>());
+        primary = new Primary(PrimaryType::PRIMARY_DOUBLE, token.getLiteral<double>());
+        break;
     case TokenType::BOOL:
-        return new Primary(PrimaryType::PRIMARY_BOOLEAN, token.getLiteral<bool>());
+        primary = new Primary(PrimaryType::PRIMARY_BOOLEAN, token.getLiteral<bool>());
+        break;
     default:
         throw ParserException(token.getLine(), token.getColumn(), "Invalid primary expr for token" + token.toString());
     }
+    advance();
+    return primary;
 }
 
 Token Parser::peek()
@@ -78,7 +85,16 @@ Token Parser::peek()
 
 bool Parser::matchTokenType(TokenType type)
 {
+    if (finishedParsing())
+    {
+        return false;
+    }
     return peek().getTokenType() == type;
+}
+
+bool Parser::finishedParsing()
+{
+    return current >= (int)tokens->size();
 }
 
 Expr *Parser::parseComparisonExpr()

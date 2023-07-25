@@ -26,7 +26,7 @@ Primary::Primary(PrimaryType type, int value)
     this->type = type;
     this->value = value;
 };
-Primary::Primary(PrimaryType type, string value)
+Primary::Primary(PrimaryType type, std::string value)
 {
     this->type = type;
     this->value = value;
