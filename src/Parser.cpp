@@ -19,7 +19,10 @@ void Parser::parse()
         try
         {
             Expr *expr = parseRootExpr();
-            exprs.push_back(expr);
+            if (expr != nullptr)
+            {
+                exprs.push_back(expr);
+            }
         }
         catch (ParserException &parserException)
         {
@@ -31,6 +34,10 @@ void Parser::parse()
 Expr *Parser::parseRootExpr()
 {
 
+    if (matchTokenType(TokenType::NEWLINE))
+    {
+        return nullptr;
+    }
     return parseInlineExpr();
 };
 
@@ -41,8 +48,7 @@ Expr *Parser::parseInlineExpr()
     if (matchTokenType(TokenType::IF))
     {
         Expr *if_conditional = parsePrimaryExpr();
-        Token token = peek();
-        consume(TokenType::ELSE, "In ternary operator, no else");
+        consume(TokenType::ELSE, "In ternary operator, no else " + peek().toString());
         Expr *else_case = parseInlineExpr();
         return new InlineExpr(if_case, if_conditional, else_case);
     }
@@ -72,7 +78,7 @@ Expr *Parser::parsePrimaryExpr()
         primary = new Primary(PrimaryType::PRIMARY_BOOLEAN, token.getLiteral<bool>());
         break;
     default:
-        throw ParserException(token.getLine(), token.getColumn(), "Invalid primary expr for token" + token.toString());
+        throw ParserException(token.getLine(), token.getColumn(), "Invalid primary expr for token " + token.toString());
     }
     advance();
     return primary;
@@ -89,12 +95,17 @@ bool Parser::matchTokenType(TokenType type)
     {
         return false;
     }
-    return peek().getTokenType() == type;
+    if (peek().getTokenType() == type)
+    {
+        advance();
+        return true;
+    };
+    return false;
 }
 
 bool Parser::finishedParsing()
 {
-    return current >= (int)tokens->size();
+    return current >= (int)tokens->size() - 1;
 }
 
 Expr *Parser::parseComparisonExpr()
@@ -104,12 +115,11 @@ Expr *Parser::parseComparisonExpr()
 
 void Parser::consume(TokenType type, std::string errorString)
 {
-    if (matchTokenType(type) != type)
+    if (!matchTokenType(type))
     {
         Token token = peek();
         throw ParserException(token.getLine(), token.getColumn(), errorString);
     }
-    advance();
 }
 void Parser::advance()
 {
