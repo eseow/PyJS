@@ -71,7 +71,10 @@
 			"iomanip": "cpp",
 			"mutex": "cpp",
 			"thread": "cpp",
-			"filesystem": "cpp"
+			"filesystem": "cpp",
+			"complex": "cpp",
+			"cinttypes": "cpp",
+			"typeindex": "cpp"
 		}
 	}
 }

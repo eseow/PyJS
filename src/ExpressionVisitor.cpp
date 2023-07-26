@@ -35,6 +35,11 @@ std::string ExpressionVisitor::accept(Primary *expr)
     return "(PRIMARY {type:" + Primary::primaryTypeStrings.at(type) + ",value:" + val + "})";
 }
 
+std::string ExpressionVisitor::accept(ComparisonExpr *expr)
+{
+    return "(COMPARISON {left: " + expr->left->toString() + " ";
+}
+
 /*
 
 Expr

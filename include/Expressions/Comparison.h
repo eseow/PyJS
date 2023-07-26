@@ -9,5 +9,6 @@ public:
     Expr *left;
     Expr *right;
     Token comparisonOperator;
+    std::string toString() override;
 };
 #endif

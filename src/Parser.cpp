@@ -2,6 +2,7 @@
 #include "Expressions/Expr.h"
 #include "Expressions/Inline.h"
 #include "Expressions/Primary.h"
+#include "Expressions/Comparison.h"
 #include <vector>
 #include "ParserException.h"
 #include <iostream>
@@ -55,6 +56,25 @@ Expr *Parser::parseInlineExpr()
     return if_case;
 }
 
+/*
+Expr *Parser::parseComparisonExpr()
+{
+    Expr *left = parseComparisonExpr();
+    TokenType types[4] = {
+        TokenType::GREATER, TokenType::GREATER_EQUAL, TokenType::LESS_EQUAL, TokenType::LESS};
+    for (int i = 0; i < 4; i++)
+    {
+        Token token = peek();
+        if (matchTokenType(types[i]))
+        {
+            Expr *right = parseEqualityExpr();
+            return new ComparisonExpr(left, right, token);
+        }
+    }
+    return nullptr;
+}
+*/
+
 Expr *Parser::parsePrimaryExpr()
 {
     Token token = peek();
@@ -106,11 +126,6 @@ bool Parser::matchTokenType(TokenType type)
 bool Parser::finishedParsing()
 {
     return current >= (int)tokens->size() - 1;
-}
-
-Expr *Parser::parseComparisonExpr()
-{
-    return nullptr;
 }
 
 void Parser::consume(TokenType type, std::string errorString)

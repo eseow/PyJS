@@ -1,5 +1,5 @@
-#ifndef COMPARISON_EXPR_H
-#define COMPARISON_EXPR_H
+#ifndef PRIMARY_EXPR_H
+#define PRIMARY_EXPR_H
 #include "Expressions/Expr.h"
 #include "Token.h"
 #include "variant"

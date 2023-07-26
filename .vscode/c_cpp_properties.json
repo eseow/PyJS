@@ -3,6 +3,7 @@
 		"myDefaultIncludePath": [
 			"${workspaceFolder}/Dependencies/googlemock/include",
 			"${workspaceFolder}/Dependencies/googletest/include",
+			"${workspaceFolder}/Dependencies/fmt/include",
 			"${workspaceFolder}/include",
 			"${workspaceFolder}/test/mocks"
 		],
