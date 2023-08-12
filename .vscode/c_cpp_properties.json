@@ -5,7 +5,8 @@
 			"${workspaceFolder}/Dependencies/googletest/include",
 			"${workspaceFolder}/Dependencies/fmt/include",
 			"${workspaceFolder}/include",
-			"${workspaceFolder}/test/mocks"
+			"${workspaceFolder}/test/mocks",
+			"/usr/include"
 		],
 		"myCompilerPath": "/usr/bin/g++"
 	},

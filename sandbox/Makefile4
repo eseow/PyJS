@@ -1,0 +1,10 @@
+TARGET=test
+CXX = g++
+CXXFLAGS = -pthread
+
+LIB_DIR=/usr/lib
+INCLUDES=libgtest.a libgtest_main.a
+
+$(TARGET): $(TARGET).o 
+	# $(CXX) $(CXXFLAGS) -o $@ $^ $(addprefix $(LIB_DIR)/, $(INCLUDES))
+	$(CXX) $(CXXFLAGS) -o $@ $^  
