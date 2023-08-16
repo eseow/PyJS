@@ -56,7 +56,6 @@ Expr *Parser::parseInlineExpr()
     return if_case;
 }
 
-/*
 Expr *Parser::parseComparisonExpr()
 {
     Expr *left = parseComparisonExpr();
@@ -67,13 +66,12 @@ Expr *Parser::parseComparisonExpr()
         Token token = peek();
         if (matchTokenType(types[i]))
         {
-            Expr *right = parseEqualityExpr();
+            Expr *right = parsePrimaryExpr();
             return new ComparisonExpr(left, right, token);
         }
     }
     return nullptr;
 }
-*/
 
 Expr *Parser::parsePrimaryExpr()
 {

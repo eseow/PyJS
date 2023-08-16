@@ -1,7 +1,7 @@
 #include "mocks/ScannerMock.cpp"
 #include "Scanner.h"
-#include <gtest/gtest.h>
-#include <gmock/gmock.h>
+#include "gtest/gtest.h"
+#include "gmock/gmock.h"
 #include <iostream>
 #include <filesystem>
 
@@ -10,24 +10,38 @@ using ::testing::NiceMock;
 using ::testing::Return;
 namespace fs = std::filesystem;
 
+std::string SCANNER_TEST_SUITE = "./testcases/Scanner";
+
+std::map<std::string, std::string> *getTestCaseFiles(std::string TEST_SUITE, std::string fileName)
+{
+    std::map<std::string, std::string> *map = new std::map<std::string, std::string>;
+    map->insert({"input", TEST_SUITE + "/input/" + fileName + ".py"});
+    map->insert({"output", TEST_SUITE + "/output/" + fileName + ".txt"});
+    return map;
+}
+
 bool fileExists(const std::string &filePath)
 {
 
-    std::cout << "Running 4";
     return fs::exists(filePath) && fs::is_regular_file(filePath);
 }
 
-void testPythonFile(string filePath, string expectedFilePath)
+void testcase(std::string TEST_SUITE, std::string fileName)
 {
-    if (!fileExists(filePath) || !fileExists(expectedFilePath))
+    std::map<std::string, std::string> *testcaseFiles = getTestCaseFiles(TEST_SUITE, fileName);
+    std::string input = testcaseFiles->at("input");
+    std::string output = testcaseFiles->at("output");
+
+    if (!fileExists(input) || !fileExists(output))
     {
-        FAIL() << "File not found " << filePath;
+        FAIL() << "File not found "
+               << "input:" << input << " output:" << output;
         return;
     }
     std::ifstream file;
-    file.open(filePath);
+    file.open(input);
 
-    std::ifstream expectedFile(expectedFilePath);
+    std::ifstream expectedFile(output);
     std::stringstream buffer;
     buffer << expectedFile.rdbuf();
     NiceMock<ScannerMock> scanner(&file);
@@ -38,37 +52,36 @@ void testPythonFile(string filePath, string expectedFilePath)
 
 TEST(Scanner, IdentifiesVariableAssignment)
 {
-    testPythonFile("./testcases/input/basic.py", "./testcases/output/basic.txt");
+    testcase(SCANNER_TEST_SUITE, "basic");
 }
 TEST(Scanner, IdentifiesFunctions)
 {
 
-    testPythonFile("./testcases/input/function.py", "./testcases/output/function.txt");
+    testcase(SCANNER_TEST_SUITE, "function");
 }
 TEST(Scanner, IdentifiesDoubles)
 {
-
-    testPythonFile("./testcases/input/decimal.py", "./testcases/output/decimal.txt");
+    testcase(SCANNER_TEST_SUITE, "decimal");
 }
 TEST(Scanner, IdentifiesTabs)
 {
-    testPythonFile("./testcases/input/tab.py", "./testcases/output/tab.txt");
+    testcase(SCANNER_TEST_SUITE, "tab");
 }
 TEST(Scanner, IdentifiesComments)
 {
-    testPythonFile("./testcases/input/comment.py", "./testcases/output/comment.txt");
+    testcase(SCANNER_TEST_SUITE, "comment");
 }
 TEST(Scanner, IdentifiesStrings)
 {
-    testPythonFile("./testcases/input/string.py", "./testcases/output/string.txt");
+    testcase(SCANNER_TEST_SUITE, "string");
 }
 TEST(Scanner, DoesFizzbuzz)
 {
-    testPythonFile("./testcases/input/fizzbuzz.py", "./testcases/output/fizzbuzz.txt");
+    testcase(SCANNER_TEST_SUITE, "fizzbuzz");
 }
 TEST(Scanner, DetectsScannerException)
 {
-    testPythonFile("./testcases/input/scannerException.py", "./testcases/output/scannerException.txt");
+    testcase(SCANNER_TEST_SUITE, "scannerException");
 }
 
 /*
