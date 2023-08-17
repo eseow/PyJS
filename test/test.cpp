@@ -10,7 +10,8 @@ using ::testing::NiceMock;
 using ::testing::Return;
 namespace fs = std::filesystem;
 
-std::string SCANNER_TEST_SUITE = "./testcases/Scanner";
+const std::string SCANNER_TEST_SUITE = "./testcases/Scanner";
+const std::string PARSER_TEST_SUITE = "./testcases/Parser";
 
 std::map<std::string, std::string> *getTestCaseFiles(std::string TEST_SUITE, std::string fileName)
 {
@@ -42,12 +43,20 @@ void testcase(std::string TEST_SUITE, std::string fileName)
     file.open(input);
 
     std::ifstream expectedFile(output);
-    std::stringstream buffer;
-    buffer << expectedFile.rdbuf();
-    NiceMock<ScannerMock> scanner(&file);
-    scanner.scanTokens();
-    string str = scanner.tokensToString();
-    EXPECT_EQ(str, buffer.str());
+    std::stringstream expectedOutput;
+    expectedOutput << expectedFile.rdbuf();
+    string actualOutput;
+
+    if (TEST_SUITE == SCANNER_TEST_SUITE)
+    {
+        ~NiceMock<ScannerMock> scanner(&file);
+        scanner.scanTokens();
+        actualOutput = scanner.tokensToString();
+    }
+    else if (TEST_SUITE == PARSER_TEST_SUITE)
+    {
+    }
+    EXPECT_EQ(actualOutput, expectedOutput.str());
 }
 
 TEST(Scanner, IdentifiesVariableAssignment)
