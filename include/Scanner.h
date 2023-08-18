@@ -42,7 +42,6 @@ public:
     Scanner(std::ifstream *file);
     Scanner(){};
     char *charArray;
-    void printTokens();
     vector<Token> *getTokens();
     virtual string tokensToString();
 

@@ -15,15 +15,9 @@ int main(int argc, char *argv[])
         {
             Scanner *scanner = new Scanner(&file);
             scanner->scanTokens();
-            scanner->printTokens();
-            std::cout << "\n";
             Parser parser(scanner->getTokens());
             parser.parse();
-            std::vector<Expr *> exprs = parser.getExprs();
-            for (int i = 0; i < (int)exprs.size(); i++)
-            {
-                std::cout << exprs.at(i)->toString();
-            }
+            std::cout << parser.getExprsString();
         }
         else
         {

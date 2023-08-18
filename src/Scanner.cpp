@@ -464,11 +464,6 @@ void Scanner::prev()
 {
     this->current--;
 }
-void Scanner::printTokens()
-{
-    string ret = tokensToString();
-    std::cout << ret;
-}
 
 string Scanner::tokensToString()
 {

@@ -61,6 +61,7 @@ Expr *Parser::parseComparisonExpr()
     Expr *left = parseComparisonExpr();
     TokenType types[4] = {
         TokenType::GREATER, TokenType::GREATER_EQUAL, TokenType::LESS_EQUAL, TokenType::LESS};
+
     for (int i = 0; i < 4; i++)
     {
         Token token = peek();
@@ -139,7 +140,12 @@ void Parser::advance()
     current++;
 }
 
-std::vector<Expr *> Parser::getExprs()
+std::string Parser::getExprsString()
 {
-    return exprs;
+    std::string str = "";
+    for (int i = 0; i < exprs.size(); i++)
+    {
+        str += exprs[i]->toString() + "\n";
+    }
+    return str;
 }

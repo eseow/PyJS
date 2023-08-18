@@ -1,4 +1,5 @@
 #include "mocks/ScannerMock.cpp"
+#include "mocks/ParserMock.cpp"
 #include "Scanner.h"
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
@@ -49,23 +50,38 @@ void testcase(std::string TEST_SUITE, std::string fileName)
 
     if (TEST_SUITE == SCANNER_TEST_SUITE)
     {
-        ~NiceMock<ScannerMock> scanner(&file);
+        NiceMock<ScannerMock> scanner(&file);
         scanner.scanTokens();
         actualOutput = scanner.tokensToString();
     }
     else if (TEST_SUITE == PARSER_TEST_SUITE)
     {
+        NiceMock<ParserMock> parser(&file);
+        parser.parse();
+        actualOutput = parser.getExprsString();
     }
-    EXPECT_EQ(actualOutput, expectedOutput.str());
+    try
+    {
+        ASSERT_EQ(actualOutput, expectedOutput.str());
+    }
+    catch (...)
+    {
+        Scanner *scanner = new Scanner(&file);
+        scanner->scanTokens();
+        std::cout << "Scanner:" << scanner->tokensToString() << std::endl;
+        Parser *parser = new Parser(scanner->getTokens());
+        parser->parse();
+        std::cout << "Parser:" << parser->getExprsString() << std::endl;
+    }
 }
 
 TEST(Scanner, IdentifiesVariableAssignment)
 {
     testcase(SCANNER_TEST_SUITE, "basic");
 }
+
 TEST(Scanner, IdentifiesFunctions)
 {
-
     testcase(SCANNER_TEST_SUITE, "function");
 }
 TEST(Scanner, IdentifiesDoubles)
@@ -91,6 +107,12 @@ TEST(Scanner, DoesFizzbuzz)
 TEST(Scanner, DetectsScannerException)
 {
     testcase(SCANNER_TEST_SUITE, "scannerException");
+}
+
+TEST(Parser, ParsesInlineExpr)
+{
+    testcase(SCANNER_TEST_SUITE, "comparison");
+    testcase(PARSER_TEST_SUITE, "comparison");
 }
 
 /*

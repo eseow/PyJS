@@ -5,7 +5,7 @@ std::string ExpressionVisitor::accept(InlineExpr *expr)
     std::string if_cond = expr->if_conditional->toString();
     std::string else_case = expr->else_case->toString();
 
-    return "(INLINE {if_case:" + if_case + ", if_cond:" + if_cond + ", else_case:" + else_case + ")";
+    return "(INLINE if_case:" + if_case + ", if_cond:" + if_cond + ", else_case:" + else_case + ")";
 }
 std::string ExpressionVisitor::accept(Primary *expr)
 {

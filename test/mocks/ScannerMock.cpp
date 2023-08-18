@@ -12,9 +12,9 @@ public:
     {
         real = new Scanner(file);
         ON_CALL(*this, scanTokens()).WillByDefault([this]()
-                                                   { std::cout << "Running to scanTokens"; real->scanTokens(); });
+                                                   { real->scanTokens(); });
         ON_CALL(*this, tokensToString()).WillByDefault([this]()
-                                                       { std::cout << "Running to tokensToString"; return real->tokensToString(); });
+                                                       { return real->tokensToString(); });
     };
     MOCK_METHOD(void, scanTokens, (), (override));
     MOCK_METHOD(string, tokensToString, (), (override));

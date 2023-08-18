@@ -6,9 +6,10 @@
 class Parser
 {
 public:
+    Parser() {}
     Parser(std::vector<Token> *tokens);
-    void parse();
-    std::vector<Expr *> getExprs();
+    virtual void parse();
+    virtual std::string getExprsString();
 
 private:
     bool finishedParsing();
