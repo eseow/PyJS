@@ -44,11 +44,11 @@ Expr *Parser::parseRootExpr()
 
 Expr *Parser::parseInlineExpr()
 {
-    // Expr* if_case = parseComparisonExpr();
-    Expr *if_case = parsePrimaryExpr();
+    Expr *if_case = parseComparisonExpr();
+    // Expr *if_case = parsePrimaryExpr();
     if (matchTokenType(TokenType::IF))
     {
-        Expr *if_conditional = parsePrimaryExpr();
+        Expr *if_conditional = parseComparisonExpr();
         consume(TokenType::ELSE, "In ternary operator, no else " + peek().toString());
         Expr *else_case = parseInlineExpr();
         return new InlineExpr(if_case, if_conditional, else_case);
@@ -58,20 +58,20 @@ Expr *Parser::parseInlineExpr()
 
 Expr *Parser::parseComparisonExpr()
 {
-    Expr *left = parseComparisonExpr();
+    Expr *left = parsePrimaryExpr();
     TokenType types[4] = {
         TokenType::GREATER, TokenType::GREATER_EQUAL, TokenType::LESS_EQUAL, TokenType::LESS};
 
     for (int i = 0; i < 4; i++)
     {
-        Token token = peek();
         if (matchTokenType(types[i]))
         {
+            Token token = peek();
             Expr *right = parsePrimaryExpr();
             return new ComparisonExpr(left, right, token);
         }
     }
-    return nullptr;
+    return left;
 }
 
 Expr *Parser::parsePrimaryExpr()
@@ -124,7 +124,7 @@ bool Parser::matchTokenType(TokenType type)
 
 bool Parser::finishedParsing()
 {
-    return current >= (int)tokens->size() - 1;
+    return current > (int)tokens->size() - 1;
 }
 
 void Parser::consume(TokenType type, std::string errorString)
