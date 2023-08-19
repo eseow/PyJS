@@ -1,3 +1,0 @@
-identifier 'x'
-equal =
-double 2.0

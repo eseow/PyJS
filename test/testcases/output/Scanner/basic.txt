@@ -1,0 +1,3 @@
+identifier 'x'
+equal =
+int 10

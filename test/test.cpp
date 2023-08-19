@@ -11,14 +11,14 @@ using ::testing::NiceMock;
 using ::testing::Return;
 namespace fs = std::filesystem;
 
-const std::string SCANNER_TEST_SUITE = "./testcases/Scanner";
-const std::string PARSER_TEST_SUITE = "./testcases/Parser";
+const std::string SCANNER_TEST_SUITE = "Scanner";
+const std::string PARSER_TEST_SUITE = "Parser";
 
 std::map<std::string, std::string> *getTestCaseFiles(std::string TEST_SUITE, std::string fileName)
 {
     std::map<std::string, std::string> *map = new std::map<std::string, std::string>;
-    map->insert({"input", TEST_SUITE + "/input/" + fileName + ".py"});
-    map->insert({"output", TEST_SUITE + "/output/" + fileName + ".txt"});
+    map->insert({"input", "./testcases/input/" + fileName + ".py"});
+    map->insert({"output", "./testcases/output/" + TEST_SUITE + "/" + fileName + ".txt"});
     return map;
 }
 
@@ -56,23 +56,12 @@ void testcase(std::string TEST_SUITE, std::string fileName)
     }
     else if (TEST_SUITE == PARSER_TEST_SUITE)
     {
+        testcase(SCANNER_TEST_SUITE, fileName);
         NiceMock<ParserMock> parser(&file);
         parser.parse();
         actualOutput = parser.getExprsString();
     }
-    try
-    {
-        ASSERT_EQ(actualOutput, expectedOutput.str());
-    }
-    catch (...)
-    {
-        Scanner *scanner = new Scanner(&file);
-        scanner->scanTokens();
-        std::cout << "Scanner:" << scanner->tokensToString() << std::endl;
-        Parser *parser = new Parser(scanner->getTokens());
-        parser->parse();
-        std::cout << "Parser:" << parser->getExprsString() << std::endl;
-    }
+    EXPECT_EQ(actualOutput, expectedOutput.str());
 }
 
 TEST(Scanner, IdentifiesVariableAssignment)
@@ -111,7 +100,6 @@ TEST(Scanner, DetectsScannerException)
 
 TEST(Parser, ParsesInlineExpr)
 {
-    testcase(SCANNER_TEST_SUITE, "comparison");
     testcase(PARSER_TEST_SUITE, "comparison");
 }
 
