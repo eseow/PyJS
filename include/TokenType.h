@@ -109,4 +109,10 @@ enum TokenType
     NEWLINE
 
 };
+
+namespace TokenTypeGroups
+{
+    std::vector<TokenType> COMPARISON_TYPES = {
+        TokenType::GREATER, TokenType::GREATER_EQUAL, TokenType::LESS_EQUAL, TokenType::LESS};
+}
 #endif

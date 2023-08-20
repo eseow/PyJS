@@ -22,7 +22,9 @@ private:
     Expr *parseTermExpr();
     Expr *parsePrimaryExpr();
     Token peek();
+    Token previous();
     bool matchTokenType(TokenType type);
+    bool matchTokenType(std::vector<TokenType> type);
     void advance();
     void consume(TokenType type, std::string errorString);
     std::vector<Token> *tokens;

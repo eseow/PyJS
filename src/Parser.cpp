@@ -7,7 +7,6 @@
 #include "ParserException.h"
 #include <iostream>
 #include "Token.h"
-
 Parser::Parser(std::vector<Token> *tokens)
 {
     this->current = 0;
@@ -58,20 +57,14 @@ Expr *Parser::parseInlineExpr()
 
 Expr *Parser::parseComparisonExpr()
 {
-    Expr *left = parsePrimaryExpr();
-    TokenType types[4] = {
-        TokenType::GREATER, TokenType::GREATER_EQUAL, TokenType::LESS_EQUAL, TokenType::LESS};
-
-    for (int i = 0; i < 4; i++)
+    Expr *comp = parsePrimaryExpr();
+    while (matchTokenType(TokenTypeGroups::COMPARISON_TYPES))
     {
-        if (matchTokenType(types[i]))
-        {
-            Token token = peek();
-            Expr *right = parsePrimaryExpr();
-            return new ComparisonExpr(left, right, token);
-        }
+        Token token = previous();
+        Expr *right = parsePrimaryExpr();
+        comp = new ComparisonExpr(comp, right, token);
     }
-    return left;
+    return comp;
 }
 
 Expr *Parser::parsePrimaryExpr()
@@ -108,6 +101,11 @@ Token Parser::peek()
     return tokens->at(current);
 }
 
+Token Parser::previous()
+{
+    return tokens->at(current - 1);
+}
+
 bool Parser::matchTokenType(TokenType type)
 {
     if (finishedParsing())
@@ -119,6 +117,24 @@ bool Parser::matchTokenType(TokenType type)
         advance();
         return true;
     };
+    return false;
+}
+
+bool Parser::matchTokenType(std::vector<TokenType> types)
+{
+    if (finishedParsing())
+    {
+        return false;
+    }
+    for (int i = 0; i < types.size(); i++)
+    {
+
+        if (peek().getTokenType() == types[i])
+        {
+            advance();
+            return true;
+        };
+    }
     return false;
 }
 
@@ -145,7 +161,11 @@ std::string Parser::getExprsString()
     std::string str = "";
     for (int i = 0; i < exprs.size(); i++)
     {
-        str += exprs[i]->toString() + "\n";
+        str += exprs[i]->toString();
+        if (i != exprs.size() - 1)
+        {
+            str += "\n";
+        }
     }
     return str;
 }

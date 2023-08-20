@@ -1,4 +1,5 @@
 #include "ExpressionVisitor.h"
+#include "boost/format.hpp"
 std::string ExpressionVisitor::accept(InlineExpr *expr)
 {
     std::string if_case = expr->if_case->toString();
@@ -37,7 +38,7 @@ std::string ExpressionVisitor::accept(Primary *expr)
 
 std::string ExpressionVisitor::accept(ComparisonExpr *expr)
 {
-    return "(COMPARISON {left: " + expr->left->toString() + " ";
+    return str(boost::format("(COMPARISON {left: %1%, right:%2%, comparisonOperator:%3%})") % expr->left->toString() % expr->right->toString() % expr->comparisonOperator.toString());
 }
 
 /*

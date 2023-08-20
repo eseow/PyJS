@@ -1,12 +1,9 @@
 {
 	"env": {
 		"myDefaultIncludePath": [
-			"${workspaceFolder}/Dependencies/googlemock/include",
-			"${workspaceFolder}/Dependencies/googletest/include",
-			"${workspaceFolder}/Dependencies/fmt/include",
 			"${workspaceFolder}/include",
 			"${workspaceFolder}/test/mocks",
-			"/usr/include"
+			"/usr/include/x86_64-linux-gnu"
 		],
 		"myCompilerPath": "/usr/bin/g++"
 	},

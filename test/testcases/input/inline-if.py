@@ -1,1 +1,1 @@
-3 if True else 4
+2 if 1 else 2

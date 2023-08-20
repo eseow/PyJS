@@ -100,7 +100,17 @@ TEST(Scanner, DetectsScannerException)
 
 TEST(Parser, ParsesInlineExpr)
 {
+    testcase(PARSER_TEST_SUITE, "inline-if");
+}
+
+TEST(Parser, ParsesComparisonExpr)
+{
     testcase(PARSER_TEST_SUITE, "comparison");
+}
+
+TEST(Parser, ParsersComparisonInlineExpr)
+{
+    testcase(PARSER_TEST_SUITE, "comparison-inline");
 }
 
 /*

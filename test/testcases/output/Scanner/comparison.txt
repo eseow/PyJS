@@ -1,5 +1,5 @@
-int 2
-if if
-int 1
-else else
+int 5
+greater_equal >=
+int 3
+greater_equal >=
 int 2
