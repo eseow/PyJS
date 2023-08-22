@@ -1,8 +1,13 @@
 #include "Parser.h"
 #include "Expressions/Expr.h"
 #include "Expressions/Inline.h"
-#include "Expressions/Primary.h"
 #include "Expressions/Comparison.h"
+#include "Expressions/Equality.h"
+#include "Expressions/Binary.h"
+#include "Expressions/Unary.h"
+#include "Expressions/Factor.h"
+#include "Expressions/Term.h"
+#include "Expressions/Primary.h"
 #include <vector>
 #include "ParserException.h"
 #include <iostream>
@@ -57,14 +62,69 @@ Expr *Parser::parseInlineExpr()
 
 Expr *Parser::parseComparisonExpr()
 {
-    Expr *comp = parsePrimaryExpr();
+    Expr *comp = parseEqualityExpr();
     while (matchTokenType(TokenTypeGroups::COMPARISON_TYPES))
     {
         Token token = previous();
-        Expr *right = parsePrimaryExpr();
+        Expr *right = parseEqualityExpr();
         comp = new ComparisonExpr(comp, right, token);
     }
     return comp;
+}
+
+Expr *Parser::parseEqualityExpr()
+{
+    Expr *equality = parseBinaryExpr();
+    while (matchTokenType(TokenTypeGroups::EQUALITY_TYPES))
+    {
+        Token token = previous();
+        Expr *right = parseBinaryExpr();
+        equality = new EqualityExpr(equality, right, token);
+    }
+    return equality;
+}
+Expr *Parser::parseBinaryExpr()
+{
+    Expr *binary = parseUnaryExpr();
+    while (matchTokenType(TokenTypeGroups::EQUALITY_TYPES))
+    {
+        Token token = previous();
+        Expr *right = parseUnaryExpr();
+        binary = new BinaryExpr(binary, right, token);
+    }
+    return binary;
+}
+Expr *Parser::parseUnaryExpr()
+{
+    Expr *unary = parseFactorExpr();
+    while (matchTokenType(TokenTypeGroups::EQUALITY_TYPES))
+    {
+        Token token = previous();
+        unary = new UnaryExpr(unary, token);
+    }
+    return unary;
+}
+Expr *Parser::parseFactorExpr()
+{
+    Expr *factor = parseTermExpr();
+    while (matchTokenType(TokenTypeGroups::EQUALITY_TYPES))
+    {
+        Token token = previous();
+        Expr *right = parseTermExpr();
+        factor = new FactorExpr(factor, right, token);
+    }
+    return factor;
+}
+Expr *Parser::parseTermExpr()
+{
+    Expr *term = parsePrimaryExpr();
+    while (matchTokenType(TokenTypeGroups::EQUALITY_TYPES))
+    {
+        Token token = previous();
+        Expr *right = parsePrimaryExpr();
+        term = new TermExpr(term, right, token);
+    }
+    return term;
 }
 
 Expr *Parser::parsePrimaryExpr()

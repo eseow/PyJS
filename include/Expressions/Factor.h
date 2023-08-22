@@ -6,6 +6,7 @@ class FactorExpr : public Expr
 {
 public:
     FactorExpr(Expr *left, Expr *right, Token factorOperator);
+    std::string toString();
     Expr *left;
     Expr *right;
     Token factorOperator;

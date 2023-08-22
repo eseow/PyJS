@@ -6,6 +6,7 @@ class BinaryExpr : public Expr
 {
 public:
     BinaryExpr(Expr *left, Expr *right, Token binaryOperator);
+    std::string toString() override;
     Expr *left;
     Expr *right;
     Token binaryOperator;

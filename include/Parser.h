@@ -19,6 +19,7 @@ private:
     Expr *parseEqualityExpr();
     Expr *parseBinaryExpr();
     Expr *parseUnaryExpr();
+    Expr *parseFactorExpr();
     Expr *parseTermExpr();
     Expr *parsePrimaryExpr();
     Token peek();

@@ -6,6 +6,7 @@ class UnaryExpr : public Expr
 {
 public:
     UnaryExpr(Expr *body, Token unaryOperator);
+    std::string toString();
     Expr *body;
     Token unaryOperator;
 };

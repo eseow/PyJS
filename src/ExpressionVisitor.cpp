@@ -8,6 +8,45 @@ std::string ExpressionVisitor::accept(InlineExpr *expr)
 
     return "(INLINE if_case:" + if_case + ", if_cond:" + if_cond + ", else_case:" + else_case + ")";
 }
+std::string ExpressionVisitor::accept(EqualityExpr *expr)
+{
+    std::string left = expr->left->toString();
+    std::string right = expr->right->toString();
+    std::string equalityOperator = expr->equalityOperator.toString();
+    return str(boost::format("(EQUALITY left:%1%, right:%2%, equalityOperator:%3%)") % left % right % equalityOperator);
+}
+
+std::string ExpressionVisitor::accept(BinaryExpr *expr)
+{
+    std::string left = expr->left->toString();
+    std::string right = expr->right->toString();
+    std::string binaryOperator = expr->binaryOperator.toString();
+    return str(boost::format("(BINARY left:%1%, right:%2%, equalityOperator:%3%)") % left % right % binaryOperator);
+}
+
+std::string ExpressionVisitor::accept(UnaryExpr *expr)
+{
+    std::string body = expr->body->toString();
+    std::string unaryOperator = expr->unaryOperator.toString();
+    return str(boost::format("(UNARY body:%1%, unaryOperator:%2%)") % body % unaryOperator);
+}
+
+std::string ExpressionVisitor::accept(FactorExpr *expr)
+{
+    std::string left = expr->left->toString();
+    std::string right = expr->right->toString();
+    std::string factorOperator = expr->factorOperator.toString();
+    return str(boost::format("(FACTOR left:%1%, right:%2%, equalityOperator:%3%)") % left % right % factorOperator);
+}
+
+std::string ExpressionVisitor::accept(TermExpr *expr)
+{
+    std::string left = expr->left->toString();
+    std::string right = expr->right->toString();
+    std::string termOperator = expr->termOperator.toString();
+    return str(boost::format("(TERM left:%1%, right:%2%, equalityOperator:%3%)") % left % right % termOperator);
+}
+
 std::string ExpressionVisitor::accept(Primary *expr)
 {
     PrimaryType type = expr->type;

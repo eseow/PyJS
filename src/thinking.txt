@@ -57,7 +57,7 @@ primary -> IDENTIFIER | NUMBER | BOOLEAN | STRING
 
 parse(){
     stmtList = []
-    while(current < tokens.length){
+p    while(current < tokens.length){
         parseRootStmt()
         advance()
     }
@@ -85,3 +85,9 @@ parseRootExpr(){
 parseInlineExpr(){
 
 }
+
+
+1 + 2 + 3
+((1+2) + 3)
+
+1 >= 2 >= 3

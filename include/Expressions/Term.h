@@ -6,6 +6,7 @@ class TermExpr : public Expr
 {
 public:
     TermExpr(Expr *left, Expr *right, Token termOperator);
+    std::string toString();
     Expr *left;
     Expr *right;
     Token termOperator;
