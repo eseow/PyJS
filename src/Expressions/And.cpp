@@ -1,15 +1,14 @@
-#include "Expressions/Binary.h"
+#include "Expressions/And.h"
 #include "Expressions/Expr.h"
 #include "Token.h"
 #include "ExpressionVisitor.h"
-BinaryExpr::BinaryExpr(Expr *left, Expr *right, Token binaryOperator)
+AndExpr::AndExpr(Expr *left, Expr *right)
 {
     this->left = left;
     this->right = right;
-    this->binaryOperator = binaryOperator;
 };
 
-std::string BinaryExpr::toString()
+std::string AndExpr::toString()
 {
     return ExpressionVisitor::accept(this);
 }

@@ -17,10 +17,11 @@ private:
     Expr *parseInlineExpr();
     Expr *parseComparisonExpr();
     Expr *parseEqualityExpr();
-    Expr *parseBinaryExpr();
-    Expr *parseUnaryExpr();
-    Expr *parseFactorExpr();
+    Expr *parseOrExpr();
+    Expr *parseAndExpr();
+    Expr *parseNotExpr();
     Expr *parseTermExpr();
+    Expr *parseFactorExpr();
     Expr *parsePrimaryExpr();
     Token peek();
     Token previous();

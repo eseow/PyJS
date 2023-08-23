@@ -8,6 +8,10 @@ std::string ExpressionVisitor::accept(InlineExpr *expr)
 
     return "(INLINE if_case:" + if_case + ", if_cond:" + if_cond + ", else_case:" + else_case + ")";
 }
+std::string ExpressionVisitor::accept(ComparisonExpr *expr)
+{
+    return str(boost::format("(COMPARISON {left: %1%, right:%2%, comparisonOperator:%3%})") % expr->left->toString() % expr->right->toString() % expr->comparisonOperator.toString());
+}
 std::string ExpressionVisitor::accept(EqualityExpr *expr)
 {
     std::string left = expr->left->toString();
@@ -16,19 +20,24 @@ std::string ExpressionVisitor::accept(EqualityExpr *expr)
     return str(boost::format("(EQUALITY left:%1%, right:%2%, equalityOperator:%3%)") % left % right % equalityOperator);
 }
 
-std::string ExpressionVisitor::accept(BinaryExpr *expr)
+std::string ExpressionVisitor::accept(AndExpr *expr)
 {
     std::string left = expr->left->toString();
     std::string right = expr->right->toString();
-    std::string binaryOperator = expr->binaryOperator.toString();
-    return str(boost::format("(BINARY left:%1%, right:%2%, equalityOperator:%3%)") % left % right % binaryOperator);
+    return str(boost::format("(AND left:%1%, right:%2%)") % left % right);
 }
 
-std::string ExpressionVisitor::accept(UnaryExpr *expr)
+std::string ExpressionVisitor::accept(OrExpr *expr)
+{
+    std::string left = expr->left->toString();
+    std::string right = expr->right->toString();
+    return str(boost::format("(OR left:%1%, right:%2%)") % left % right);
+}
+
+std::string ExpressionVisitor::accept(NotExpr *expr)
 {
     std::string body = expr->body->toString();
-    std::string unaryOperator = expr->unaryOperator.toString();
-    return str(boost::format("(UNARY body:%1%, unaryOperator:%2%)") % body % unaryOperator);
+    return str(boost::format("(NOT body:%1%)") % body);
 }
 
 std::string ExpressionVisitor::accept(FactorExpr *expr)
@@ -36,7 +45,7 @@ std::string ExpressionVisitor::accept(FactorExpr *expr)
     std::string left = expr->left->toString();
     std::string right = expr->right->toString();
     std::string factorOperator = expr->factorOperator.toString();
-    return str(boost::format("(FACTOR left:%1%, right:%2%, equalityOperator:%3%)") % left % right % factorOperator);
+    return str(boost::format("(FACTOR left:%1%, right:%2%, factorOperator:%3%)") % left % right % factorOperator);
 }
 
 std::string ExpressionVisitor::accept(TermExpr *expr)
@@ -44,7 +53,7 @@ std::string ExpressionVisitor::accept(TermExpr *expr)
     std::string left = expr->left->toString();
     std::string right = expr->right->toString();
     std::string termOperator = expr->termOperator.toString();
-    return str(boost::format("(TERM left:%1%, right:%2%, equalityOperator:%3%)") % left % right % termOperator);
+    return str(boost::format("(TERM left:%1%, right:%2%, termOperator:%3%)") % left % right % termOperator);
 }
 
 std::string ExpressionVisitor::accept(Primary *expr)
@@ -74,25 +83,3 @@ std::string ExpressionVisitor::accept(Primary *expr)
     }
     return "(PRIMARY {type:" + Primary::primaryTypeStrings.at(type) + ",value:" + val + "})";
 }
-
-std::string ExpressionVisitor::accept(ComparisonExpr *expr)
-{
-    return str(boost::format("(COMPARISON {left: %1%, right:%2%, comparisonOperator:%3%})") % expr->left->toString() % expr->right->toString() % expr->comparisonOperator.toString());
-}
-
-/*
-
-Expr
-
-InlineExpr
-TermExpr
-PrimaryExpr
-
-InlineExpr.toString
--> (inline if_case:{} if_cond:{} else_case:{})
-if_case = Expr
-if_cond = Expr
-else_case = Expr
-
-
-*/

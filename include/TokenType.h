@@ -115,6 +115,10 @@ namespace TokenTypeGroups
     std::vector<TokenType> COMPARISON_TYPES = {
         TokenType::GREATER, TokenType::GREATER_EQUAL, TokenType::LESS_EQUAL, TokenType::LESS};
     std::vector<TokenType> EQUALITY_TYPES = {
-        TokenType::DOUBLE_EQUAL, TokenType::NOT_EQUAL}
-
+        TokenType::DOUBLE_EQUAL, TokenType::NOT_EQUAL};
+    std::vector<TokenType> TERM_TYPES = {
+        TokenType::PLUS, TokenType::MINUS};
+    std::vector<TokenType> FACTOR_EXPR = {
+        TokenType::ASTERISK, TokenType::SLASH};
+}
 #endif

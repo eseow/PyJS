@@ -3,7 +3,9 @@
 #include "Expressions/Inline.h"
 #include "Expressions/Comparison.h"
 #include "Expressions/Equality.h"
-#include "Expressions/Binary.h"
+#include "Expressions/Not.h"
+#include "Expressions/And.h"
+#include "Expressions/Or.h"
 #include "Expressions/Unary.h"
 #include "Expressions/Factor.h"
 #include "Expressions/Term.h"
@@ -74,59 +76,68 @@ Expr *Parser::parseComparisonExpr()
 
 Expr *Parser::parseEqualityExpr()
 {
-    Expr *equality = parseBinaryExpr();
+    Expr *equality = parseOrExpr();
     while (matchTokenType(TokenTypeGroups::EQUALITY_TYPES))
     {
         Token token = previous();
-        Expr *right = parseBinaryExpr();
+        Expr *right = parseOrExpr();
         equality = new EqualityExpr(equality, right, token);
     }
     return equality;
 }
-Expr *Parser::parseBinaryExpr()
+Expr *Parser::parseOrExpr()
 {
-    Expr *binary = parseUnaryExpr();
-    while (matchTokenType(TokenTypeGroups::EQUALITY_TYPES))
+    Expr *andExpr = parseAndExpr();
+    while (matchTokenType(TokenType::OR))
     {
-        Token token = previous();
-        Expr *right = parseUnaryExpr();
-        binary = new BinaryExpr(binary, right, token);
+        Expr *right = parseAndExpr();
+        andExpr = new OrExpr(andExpr, right);
     }
-    return binary;
+    return andExpr;
 }
-Expr *Parser::parseUnaryExpr()
+Expr *Parser::parseAndExpr()
 {
-    Expr *unary = parseFactorExpr();
-    while (matchTokenType(TokenTypeGroups::EQUALITY_TYPES))
+    Expr *notExpr = parseNotExpr();
+    while (matchTokenType(TokenType::AND))
     {
-        Token token = previous();
-        unary = new UnaryExpr(unary, token);
+        Expr *right = parseNotExpr();
+        notExpr = new AndExpr(notExpr, right);
     }
-    return unary;
+    return notExpr;
 }
-Expr *Parser::parseFactorExpr()
+Expr *Parser::parseNotExpr()
 {
-    Expr *factor = parseTermExpr();
-    while (matchTokenType(TokenTypeGroups::EQUALITY_TYPES))
+    Expr *termExpr = parseTermExpr();
+    while (matchTokenType(TokenType::NOT))
     {
         Token token = previous();
-        Expr *right = parseTermExpr();
-        factor = new FactorExpr(factor, right, token);
+        termExpr = new NotExpr(termExpr);
     }
-    return factor;
+    return termExpr;
 }
 Expr *Parser::parseTermExpr()
 {
-    Expr *term = parsePrimaryExpr();
-    while (matchTokenType(TokenTypeGroups::EQUALITY_TYPES))
+    Expr *term = parseFactorExpr();
+    while (matchTokenType(TokenTypeGroups::TERM_TYPES))
     {
         Token token = previous();
-        Expr *right = parsePrimaryExpr();
+        Expr *right = parseFactorExpr();
         term = new TermExpr(term, right, token);
     }
     return term;
 }
 
+Expr *Parser::parseFactorExpr()
+{
+    Expr *factor = parsePrimaryExpr();
+    while (matchTokenType(TokenTypeGroups::FACTOR_EXPR))
+    {
+        Token token = previous();
+        Expr *right = parsePrimaryExpr();
+        factor = new FactorExpr(factor, right, token);
+    }
+    return factor;
+}
 Expr *Parser::parsePrimaryExpr()
 {
     Token token = peek();
