@@ -1,0 +1,1 @@
+(EQUALITY left:(EQUALITY left:(PRIMARY {type:INT,value:5}), right:(AND left:(PRIMARY {type:INT,value:5}), right:(PRIMARY {type:INT,value:5})), equalityOperator:not_equal !=), right:(OR left:(TERM left:(PRIMARY {type:INT,value:1}), right:(PRIMARY {type:INT,value:3}), termOperator:plus +), right:(NOT body:(PRIMARY {type:BOOLEAN,value:1}))), equalityOperator:double_equal ==)

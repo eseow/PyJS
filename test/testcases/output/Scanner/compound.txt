@@ -1,0 +1,12 @@
+int 5
+not_equal !=
+int 5
+and and
+int 5
+double_equal ==
+int 1
+plus +
+int 3
+or or
+not not
+bool 1

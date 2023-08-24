@@ -1,6 +1,7 @@
 #ifndef TOKEN_TYPE_H
 #include <map>
 #include <string>
+#include <vector>
 #define TOKEN_TYPE_H
 
 /*
@@ -112,13 +113,9 @@ enum TokenType
 
 namespace TokenTypeGroups
 {
-    std::vector<TokenType> COMPARISON_TYPES = {
-        TokenType::GREATER, TokenType::GREATER_EQUAL, TokenType::LESS_EQUAL, TokenType::LESS};
-    std::vector<TokenType> EQUALITY_TYPES = {
-        TokenType::DOUBLE_EQUAL, TokenType::NOT_EQUAL};
-    std::vector<TokenType> TERM_TYPES = {
-        TokenType::PLUS, TokenType::MINUS};
-    std::vector<TokenType> FACTOR_EXPR = {
-        TokenType::ASTERISK, TokenType::SLASH};
+    extern std::vector<TokenType> COMPARISON_TYPES;
+    extern std::vector<TokenType> EQUALITY_TYPES;
+    extern std::vector<TokenType> TERM_TYPES;
+    extern std::vector<TokenType> FACTOR_TYPES;
 }
 #endif

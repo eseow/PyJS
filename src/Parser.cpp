@@ -6,7 +6,6 @@
 #include "Expressions/Not.h"
 #include "Expressions/And.h"
 #include "Expressions/Or.h"
-#include "Expressions/Unary.h"
 #include "Expressions/Factor.h"
 #include "Expressions/Term.h"
 #include "Expressions/Primary.h"
@@ -45,16 +44,20 @@ Expr *Parser::parseRootExpr()
     {
         return nullptr;
     }
+    else if (matchTokenType(TokenType::HASH))
+    {
+        return nullptr;
+    }
     return parseInlineExpr();
 };
 
 Expr *Parser::parseInlineExpr()
 {
-    Expr *if_case = parseComparisonExpr();
+    Expr *if_case = parseOrExpr();
     // Expr *if_case = parsePrimaryExpr();
     if (matchTokenType(TokenType::IF))
     {
-        Expr *if_conditional = parseComparisonExpr();
+        Expr *if_conditional = parseOrExpr();
         consume(TokenType::ELSE, "In ternary operator, no else " + peek().toString());
         Expr *else_case = parseInlineExpr();
         return new InlineExpr(if_case, if_conditional, else_case);
@@ -62,29 +65,6 @@ Expr *Parser::parseInlineExpr()
     return if_case;
 }
 
-Expr *Parser::parseComparisonExpr()
-{
-    Expr *comp = parseEqualityExpr();
-    while (matchTokenType(TokenTypeGroups::COMPARISON_TYPES))
-    {
-        Token token = previous();
-        Expr *right = parseEqualityExpr();
-        comp = new ComparisonExpr(comp, right, token);
-    }
-    return comp;
-}
-
-Expr *Parser::parseEqualityExpr()
-{
-    Expr *equality = parseOrExpr();
-    while (matchTokenType(TokenTypeGroups::EQUALITY_TYPES))
-    {
-        Token token = previous();
-        Expr *right = parseOrExpr();
-        equality = new EqualityExpr(equality, right, token);
-    }
-    return equality;
-}
 Expr *Parser::parseOrExpr()
 {
     Expr *andExpr = parseAndExpr();
@@ -107,13 +87,34 @@ Expr *Parser::parseAndExpr()
 }
 Expr *Parser::parseNotExpr()
 {
-    Expr *termExpr = parseTermExpr();
-    while (matchTokenType(TokenType::NOT))
+    if (matchTokenType(TokenType::NOT))
+    {
+        return new NotExpr(parseNotExpr());
+    }
+    return parseComparisonExpr();
+}
+Expr *Parser::parseComparisonExpr()
+{
+    Expr *comp = parseEqualityExpr();
+    while (matchTokenType(TokenTypeGroups::COMPARISON_TYPES))
     {
         Token token = previous();
-        termExpr = new NotExpr(termExpr);
+        Expr *right = parseEqualityExpr();
+        comp = new ComparisonExpr(comp, right, token);
     }
-    return termExpr;
+    return comp;
+}
+
+Expr *Parser::parseEqualityExpr()
+{
+    Expr *equality = parseTermExpr();
+    while (matchTokenType(TokenTypeGroups::EQUALITY_TYPES))
+    {
+        Token token = previous();
+        Expr *right = parseTermExpr();
+        equality = new EqualityExpr(equality, right, token);
+    }
+    return equality;
 }
 Expr *Parser::parseTermExpr()
 {
@@ -130,7 +131,7 @@ Expr *Parser::parseTermExpr()
 Expr *Parser::parseFactorExpr()
 {
     Expr *factor = parsePrimaryExpr();
-    while (matchTokenType(TokenTypeGroups::FACTOR_EXPR))
+    while (matchTokenType(TokenTypeGroups::FACTOR_TYPES))
     {
         Token token = previous();
         Expr *right = parsePrimaryExpr();

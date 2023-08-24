@@ -56,7 +56,7 @@ void testcase(std::string TEST_SUITE, std::string fileName)
     }
     else if (TEST_SUITE == PARSER_TEST_SUITE)
     {
-        testcase(SCANNER_TEST_SUITE, fileName);
+        // testcase(SCANNER_TEST_SUITE, fileName);
         NiceMock<ParserMock> parser(&file);
         parser.parse();
         actualOutput = parser.getExprsString();
@@ -108,9 +108,14 @@ TEST(Parser, ParsesComparisonExpr)
     testcase(PARSER_TEST_SUITE, "comparison");
 }
 
-TEST(Parser, ParsersComparisonInlineExpr)
+TEST(Parser, ParsesComparisonInlineExpr)
 {
     testcase(PARSER_TEST_SUITE, "comparison-inline");
+}
+
+TEST(Parser, ParsesCompoundArithmeticOperations)
+{
+    testcase(PARSER_TEST_SUITE, "compound");
 }
 
 /*

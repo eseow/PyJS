@@ -10,7 +10,6 @@
 #include "Expressions/Factor.h"
 #include "Expressions/Term.h"
 #include <string>
-#define EXPRESSION_VISITOR_H
 class ExpressionVisitor
 {
 public:

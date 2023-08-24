@@ -94,3 +94,27 @@ parseInlineExpr(){
 1 >= 2 >= 3
 
 1 + 5 * 5 + 3 = 1 + (5 * 5) + 3
+
+-1 + 5 * 5 + 3
+            term        +       factor
+         term   +   factor         neg
+        factor    factor * neg     primary
+         neg        neg   primary     3
+       - primary   primary   5
+          1          5
+
+term -> term (+ | -) factor | factor
+factor -> factor (* | /) neg | neg
+neg -> - primary | primary
+primary -> NUMBER
+
+(
+    EQUALITY 
+    left:(
+            EQUALITY left:(PRIMARY {type:INT,value:5}), 
+            right:(AND left:(PRIMARY {type:INT,value:5}), right:(PRIMARY {type:INT,value:5})), 
+            equalityOperator:not_equal !=
+        ), 
+    right:(OR left:(TERM left:(PRIMARY {type:INT,value:1}), right:(PRIMARY {type:INT,value:3}), termOperator:plus +), right:(NOT body:(PRIMARY {type:BOOLEAN,value:1}))), 
+    equalityOperator:double_equal ==
+)
