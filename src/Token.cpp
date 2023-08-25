@@ -268,3 +268,7 @@ int Token::getColumn()
 {
     return column;
 }
+std::string Token::getLexeme()
+{
+    return lexeme;
+}

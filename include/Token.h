@@ -20,6 +20,7 @@ public:
     T getLiteral();
     TokenType getTokenType();
     int getLine();
+    std::string getLexeme();
     int getColumn();
 
 private:

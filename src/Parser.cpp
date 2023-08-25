@@ -1,6 +1,7 @@
 #include "Parser.h"
 #include "Expressions/Expr.h"
 #include "Expressions/Inline.h"
+#include "Expressions/Func.h"
 #include "Expressions/Comparison.h"
 #include "Expressions/Equality.h"
 #include "Expressions/Not.h"
@@ -48,9 +49,46 @@ Expr *Parser::parseRootExpr()
     {
         return nullptr;
     }
-    return parseInlineExpr();
+    return parseFuncExpr();
 };
+void Parser::throwParserException(std::string s)
+{
 
+    Token token = peek();
+    TokenType type = token.getTokenType();
+    throw ParserException(token.getLine(), token.getColumn(), s + " " + token.toString());
+}
+
+Expr *Parser::parseFuncExpr()
+{
+    Expr *inlineExpr;
+    if (matchTokenType(TokenType::IDENTIFIER))
+    {
+        Token identifier = previous();
+        if (matchTokenType(TokenType::LEFT_PAREN))
+        {
+            std::vector<Expr *> args = std::vector<Expr *>();
+            if (matchTokenType(TokenType::RIGHT_PAREN))
+            {
+                return new FuncExpr(args, identifier);
+            }
+            args.push_back(parseFuncExpr());
+            while (matchTokenType(TokenType::COMMA))
+            {
+                args.push_back(parseFuncExpr());
+            }
+            if (matchTokenType(TokenType::RIGHT_PAREN))
+            {
+                return new FuncExpr(args, identifier);
+            }
+            else
+            {
+                throwParserException("Missing matching ) for func expr");
+            }
+        }
+    }
+    return parseInlineExpr();
+}
 Expr *Parser::parseInlineExpr()
 {
     Expr *if_case = parseOrExpr();

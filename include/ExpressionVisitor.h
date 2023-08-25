@@ -1,7 +1,7 @@
 #ifndef EXPRESSION_VISITOR_H
 #define EXPRESSION_VISITOR_H
+#include "Expressions/Func.h"
 #include "Expressions/Inline.h"
-#include "Expressions/Primary.h"
 #include "Expressions/Comparison.h"
 #include "Expressions/Equality.h"
 #include "Expressions/Or.h"
@@ -9,6 +9,7 @@
 #include "Expressions/Not.h"
 #include "Expressions/Factor.h"
 #include "Expressions/Term.h"
+#include "Expressions/Primary.h"
 #include <string>
 class ExpressionVisitor
 {
@@ -22,5 +23,6 @@ public:
     static std::string accept(NotExpr *expr);
     static std::string accept(FactorExpr *expr);
     static std::string accept(TermExpr *expr);
+    static std::string accept(FuncExpr *expr);
 };
 #endif

@@ -23,8 +23,10 @@ private:
     Expr *parseTermExpr();
     Expr *parseFactorExpr();
     Expr *parsePrimaryExpr();
+    Expr *parseFuncExpr();
     Token peek();
     Token previous();
+    void throwParserException(std::string s);
     bool matchTokenType(TokenType type);
     bool matchTokenType(std::vector<TokenType> type);
     void advance();

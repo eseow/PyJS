@@ -8,6 +8,21 @@ std::string ExpressionVisitor::accept(InlineExpr *expr)
 
     return "(INLINE if_case:" + if_case + ", if_cond:" + if_cond + ", else_case:" + else_case + ")";
 }
+std::string ExpressionVisitor::accept(FuncExpr *expr)
+{
+    std::string arguments = "";
+    for (int i = 0; i < expr->arguments.size(); i++)
+    {
+        arguments += str(boost::format("ARG_%1%:") % i);
+        arguments += expr->arguments.at(i)->toString();
+        if (i < expr->arguments.size() - 1)
+        {
+            arguments += ", ";
+        }
+    }
+    std::string lexeme = expr->identifer.getLexeme();
+    return str(boost::format("(FUNC %1% (%2%))") % lexeme % arguments);
+}
 std::string ExpressionVisitor::accept(ComparisonExpr *expr)
 {
     return str(boost::format("(COMPARISON {left: %1%, right:%2%, comparisonOperator:%3%})") % expr->left->toString() % expr->right->toString() % expr->comparisonOperator.toString());

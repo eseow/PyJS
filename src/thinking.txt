@@ -31,7 +31,12 @@ inline -> comparison "if" comparison "else" inline | comparison
 
 ((5 if True else 6) if True else 7) -> Left to right
 
+f(a,b,c)
+f(f(a),c)
+f(a)
+f()
 
+func -> identifier()
 comparison -> comparison (< | <= | >= | > ) equality | equality
 equality -> equality (!= | ==) binary | binary
 orExpr -> orExpr or andExpr | andExpr 
@@ -128,7 +133,7 @@ condStatement
 
 ifStatement
     if expr :
-        body
+    \t  body
 
 elif statement 
     elif expr:
@@ -142,4 +147,76 @@ forStatement:
     | for identifier in identifier
     | for identifier in range(num,num):
 
+
+if if
+expr expr
+tab tab
+identifier x
+plus +
+equal equal
+num 5
+
+start and end of the body?
+start = header + tab
+end = header - tab*
+
+
+stack?
+
+if True:
+    2 + 2
+
+
+if if
+bool True
+: :
+newline \n
+tab \t
+num 2
+plus plus
+num 2
+newline \n
+
+if True:
+    if True:
+        2 + 2
+    return False
+    
+
+if if
+bool True
+: :
+newline \n
+tab \t
+if if
+bool True
+: :
+newline \n
+tab \t
+tab \t
+num 2
+plus plus
+num 2
+newline \n
+tab \t
+return return
+False False
+newline \n
+
+
+recursively or stack wise?
+
+statement -> toJSString()
+
+parseStatement(indent = 0):
+    match 
+        funcDecl
+        funcInv
+        ifStatement
+        elifStatement
+        elseStatement
+        exprStatement
+        returnStatement
+        varSetStatement
+parseFuncDecl
 
