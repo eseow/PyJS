@@ -1,18 +1,3 @@
-(INLINE 
-    if_case:
-        (COMPARISON 
-        {left: (PRIMARY {type:INT,value:3}), 
-        right:(PRIMARY {type:INT,value:4}), 
-        comparisonOperator:greater_equal >=})
-    if_cond:(PRIMARY {type:INT,value:5})
-    else_case:
-        (INLINE 
-            if_case:(PRIMARY {type:INT,value:1}), 
-            if_cond:(PRIMARY {type:INT,value:2}), 
-            else_case:(PRIMARY {type:INT,value:3})
-        )
-)
-
 function fizzbuzz(var n){
     let r = [1 .... n+1]
     for(let i : r){
@@ -115,6 +100,46 @@ primary -> NUMBER
             right:(AND left:(PRIMARY {type:INT,value:5}), right:(PRIMARY {type:INT,value:5})), 
             equalityOperator:not_equal !=
         ), 
-    right:(OR left:(TERM left:(PRIMARY {type:INT,value:1}), right:(PRIMARY {type:INT,value:3}), termOperator:plus +), right:(NOT body:(PRIMARY {type:BOOLEAN,value:1}))), 
+    right:(
+        OR 
+        left:(
+            TERM 
+            left:(PRIMARY {type:INT,value:1}), 
+            right:(PRIMARY {type:INT,value:3}), 
+            termOperator:plus +
+        ), 
+        right:(NOT body:(PRIMARY {type:BOOLEAN,value:1}))
+        ), 
     equalityOperator:double_equal ==
 )
+
+
+funcDecl
+    def identifier ( identifier ) :
+
+funcInv
+    identifier ( identifier )
+
+condStatement
+    | ifStatement
+    | ifStatement
+      elifStatement*
+      elseStatement*
+
+ifStatement
+    if expr :
+        body
+
+elif statement 
+    elif expr:
+        body
+
+else statement
+    else:
+        body
+        
+forStatement:
+    | for identifier in identifier
+    | for identifier in range(num,num):
+
+
