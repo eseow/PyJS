@@ -1,6 +1,10 @@
 identifier 'add'
 left_paren (
+identifier 'add'
+left_paren (
+right_paren )
+comma ,
 int 1
 comma ,
-double 2.0
+int 2
 right_paren )

@@ -1,0 +1,1 @@
+(FUNC add (ARG_0:(FUNC add ()), ARG_1:(PRIMARY {type:INT,value:1}), ARG_2:(PRIMARY {type:INT,value:2})))
