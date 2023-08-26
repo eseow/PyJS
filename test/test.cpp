@@ -24,7 +24,6 @@ std::map<std::string, std::string> *getTestCaseFiles(std::string TEST_SUITE, std
 
 bool fileExists(const std::string &filePath)
 {
-
     return fs::exists(filePath) && fs::is_regular_file(filePath);
 }
 

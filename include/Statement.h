@@ -1,15 +1,34 @@
 #ifndef STATEMENT_H
 #define STATEMENT_H
+#include "Expressions/Expr.h"
 #include <string>
-class Statement
+#include <vector>
+class Stmt
 {
 public:
-    std::string virtual toString();
+    std::string virtual toJsString() = 0;
 };
 
-class FunctionStatement : Statement
+class IfStmt : public Stmt
 {
 public:
-    std::string toString();
+    IfStmt(
+        std::vector<Stmt *> body,
+        std::vector<IfStmt *> elifStmt,
+        std::vector<Stmt *> elseBody);
+    std::string toJsString();
+    Expr *ifCond;
+    std::vector<Stmt *> body;
+    std::vector<IfStmt *> elifStmt;
+    std::vector<Stmt *> elseBody;
+};
+
+class ExprStmt : public Stmt
+{
+public:
+    ExprStmt(
+        Expr *expr);
+    std::string toJsString();
+    Expr *expr;
 };
 #endif

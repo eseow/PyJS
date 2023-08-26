@@ -14,10 +14,13 @@
 #include "ParserException.h"
 #include <iostream>
 #include "Token.h"
+#include "Statement.h"
 Parser::Parser(std::vector<Token> *tokens)
 {
     this->current = 0;
     this->tokens = tokens;
+    this->bodyDepth = 0;
+    this->currentDepth = 0;
 }
 void Parser::parse()
 {
@@ -37,6 +40,118 @@ void Parser::parse()
         };
         advance();
     }
+}
+Stmt *Parser::parseStmt()
+{
+    if (peekTokenType(TokenType::IF))
+    {
+        return parseIfStmt();
+    }
+    else if (peekTokenType(TokenType::DEF))
+    {
+    }
+    else if (peekTokenType(TokenType::IDENTIFIER))
+    {
+        // function inv, variable set
+    }
+    else if (peekTokenType(TokenType::ELIF))
+    {
+        throwParserException("Missing if statement");
+    }
+    else
+    {
+        return parseExprStmt();
+    }
+}
+
+void Parser::clearWhitespace()
+{
+    int tabs = 0;
+    while (peekTokenType(TokenType::TAB) || peekTokenType(TokenType::NEWLINE))
+    {
+        if (matchTokenType(TokenType::TAB))
+        {
+            tabs++;
+        }
+        else
+        {
+            tabs = 0;
+        }
+        advance();
+    }
+    currentDepth = tabs;
+    if (currentDepth > bodyDepth)
+    {
+        throwParserException("Unexpected indentation");
+    }
+}
+void Parser::parseBody(std::vector<Stmt *> *body)
+{
+    bodyDepth++;
+    do
+    {
+        clearWhitespace();
+        if (currentDepth < bodyDepth)
+        {
+            current -= currentDepth;
+            break;
+        }
+        body->push_back(parseStmt());
+    } while (currentDepth == bodyDepth);
+    bodyDepth--;
+}
+
+IfStmt *Parser::parseIfStmt()
+{
+    bool isIf;
+    if (matchTokenType(TokenType::IF))
+    {
+        isIf = true;
+    }
+    else if (matchTokenType(TokenType::ELIF))
+    {
+        isIf = false;
+    }
+    Expr *ifCond = parseRootExpr();
+    consume(TokenType::COLON, "No : in if statement");
+    std::vector<Stmt *> body;
+    std::vector<IfStmt *> elifStmts;
+    std::vector<Stmt *> elseBody;
+    parseBody(&body);
+    if (isIf)
+    {
+        if (currentDepth == bodyDepth)
+        {
+            while (peekTokenType(TokenType::ELIF))
+            {
+                consume(TokenType::COLON, "No : in elif statement");
+                elifStmts.push_back(parseIfStmt());
+            }
+        }
+        if (currentDepth == bodyDepth)
+        {
+
+            if (matchTokenType(TokenType::ELSE))
+            {
+                consume(TokenType::COLON, "No : in else statement");
+                parseBody(&elseBody);
+                if (elseBody.size() == 0)
+                {
+                    throwParserException("Empty body for else statement");
+                }
+            }
+        }
+    }
+    if (body.size() == 0)
+    {
+        throwParserException("Empty body for if statement");
+    }
+    return new IfStmt(body, elifStmts, elseBody);
+}
+
+Stmt *Parser::parseExprStmt()
+{
+    return new ExprStmt(parseRootExpr());
 }
 Expr *Parser::parseRootExpr()
 {
@@ -248,6 +363,19 @@ bool Parser::matchTokenType(std::vector<TokenType> types)
     return false;
 }
 
+bool Parser::peekTokenType(TokenType type)
+{
+    if (finishedParsing())
+    {
+        return false;
+    }
+    if (peek().getTokenType() == type)
+    {
+        return true;
+    };
+    return false;
+}
+
 bool Parser::finishedParsing()
 {
     return current > (int)tokens->size() - 1;
@@ -261,6 +389,16 @@ void Parser::consume(TokenType type, std::string errorString)
         throw ParserException(token.getLine(), token.getColumn(), errorString);
     }
 }
+
+void Parser::consume(std::vector<TokenType> types, std::string errorString)
+{
+    if (!matchTokenType(types))
+    {
+        Token token = peek();
+        throw ParserException(token.getLine(), token.getColumn(), errorString);
+    }
+}
+
 void Parser::advance()
 {
     current++;

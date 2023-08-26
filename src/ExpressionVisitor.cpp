@@ -52,7 +52,8 @@ std::string ExpressionVisitor::accept(OrExpr *expr)
 std::string ExpressionVisitor::accept(NotExpr *expr)
 {
     std::string body = expr->body->toString();
-    return str(boost::format("(NOT body:%1%)") % body);
+    // return str(boost::format("(NOT body:%1%)") % body);
+    return str(boost::format("(!(%1%)") % body);
 }
 
 std::string ExpressionVisitor::accept(FactorExpr *expr)
@@ -60,7 +61,8 @@ std::string ExpressionVisitor::accept(FactorExpr *expr)
     std::string left = expr->left->toString();
     std::string right = expr->right->toString();
     std::string factorOperator = expr->factorOperator.toString();
-    return str(boost::format("(FACTOR left:%1%, right:%2%, factorOperator:%3%)") % left % right % factorOperator);
+    // return str(boost::format("(FACTOR left:%1%, right:%2%, factorOperator:%3%)") % left % right % factorOperator);
+    return str(boost::format("(%1% * %2%)") % left % right % factorOperator);
 }
 
 std::string ExpressionVisitor::accept(TermExpr *expr)
@@ -68,7 +70,8 @@ std::string ExpressionVisitor::accept(TermExpr *expr)
     std::string left = expr->left->toString();
     std::string right = expr->right->toString();
     std::string termOperator = expr->termOperator.toString();
-    return str(boost::format("(TERM left:%1%, right:%2%, termOperator:%3%)") % left % right % termOperator);
+    // return str(boost::format("(TERM left:%1%, right:%2%, termOperator:%3%)") % left % right % termOperator);
+    return str(boost::format("(%1% + %2%)") % left % right % termOperator);
 }
 
 std::string ExpressionVisitor::accept(Primary *expr)
@@ -96,5 +99,6 @@ std::string ExpressionVisitor::accept(Primary *expr)
     default:
         break;
     }
-    return "(PRIMARY {type:" + Primary::primaryTypeStrings.at(type) + ",value:" + val + "})";
+    // return "(PRIMARY {type:" + Primary::primaryTypeStrings.at(type) + ",value:" + val + "})";
+    return Primary::primaryTypeStrings.at(type);
 }
