@@ -10,7 +10,7 @@ IfStmt::IfStmt(
     this->elseBody = elseBody;
 }
 
-std::string IfStmt::toJsString()
+std::string IfStmt::toString()
 {
     return StatementVisitor::accept(this);
 }

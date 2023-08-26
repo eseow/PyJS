@@ -11,11 +11,11 @@ public:
     Parser(std::vector<Token> *tokens);
     virtual void parse();
     virtual std::string getExprsString();
+    static int bodyDepth;
+    static int currentDepth;
 
 private:
     bool finishedParsing();
-    static int bodyDepth;
-    static int currentDepth;
     Stmt *parseStmt();
     IfStmt *parseIfStmt();
     Stmt *parseExprStmt();

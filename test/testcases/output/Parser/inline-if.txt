@@ -1,1 +1,1 @@
-(INLINE if_case:(PRIMARY {type:INT,value:2}), if_cond:(PRIMARY {type:INT,value:1}), else_case:(PRIMARY {type:INT,value:2}))
+((1) ? (2) : (2))

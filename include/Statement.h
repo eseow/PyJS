@@ -6,7 +6,7 @@
 class Stmt
 {
 public:
-    std::string virtual toJsString() = 0;
+    std::string virtual toString() = 0;
 };
 
 class IfStmt : public Stmt
@@ -16,7 +16,7 @@ public:
         std::vector<Stmt *> body,
         std::vector<IfStmt *> elifStmt,
         std::vector<Stmt *> elseBody);
-    std::string toJsString();
+    std::string toString();
     Expr *ifCond;
     std::vector<Stmt *> body;
     std::vector<IfStmt *> elifStmt;
@@ -26,9 +26,8 @@ public:
 class ExprStmt : public Stmt
 {
 public:
-    ExprStmt(
-        Expr *expr);
-    std::string toJsString();
+    ExprStmt(Expr *expr);
+    std::string toString();
     Expr *expr;
 };
 #endif

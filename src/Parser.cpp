@@ -15,12 +15,13 @@
 #include <iostream>
 #include "Token.h"
 #include "Statement.h"
+int Parser::bodyDepth = 0;
+int Parser::currentDepth = 0;
+
 Parser::Parser(std::vector<Token> *tokens)
 {
     this->current = 0;
     this->tokens = tokens;
-    this->bodyDepth = 0;
-    this->currentDepth = 0;
 }
 void Parser::parse()
 {
