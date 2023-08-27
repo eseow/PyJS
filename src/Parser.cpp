@@ -156,7 +156,6 @@ Stmt *Parser::parseExprStmt()
 }
 Expr *Parser::parseRootExpr()
 {
-
     if (matchTokenType(TokenType::NEWLINE))
     {
         return nullptr;

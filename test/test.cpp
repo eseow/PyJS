@@ -57,8 +57,15 @@ void testcase(std::string TEST_SUITE, std::string fileName)
     {
         testcase(SCANNER_TEST_SUITE, fileName);
         NiceMock<ParserMock> parser(&file);
-        parser.parse();
-        actualOutput = parser.getExprsString();
+        Expr *expr = parser.parseRootExpr();
+        if (expr == nullptr)
+        {
+            actualOutput = "";
+        }
+        else
+        {
+            actualOutput = expr->toString();
+        }
     }
     EXPECT_EQ(actualOutput, expectedOutput.str());
 }

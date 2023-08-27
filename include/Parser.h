@@ -11,6 +11,7 @@ public:
     Parser(std::vector<Token> *tokens);
     virtual void parse();
     virtual std::string getExprsString();
+    virtual Expr *parseRootExpr();
     static int bodyDepth;
     static int currentDepth;
 
@@ -19,7 +20,6 @@ private:
     Stmt *parseStmt();
     IfStmt *parseIfStmt();
     Stmt *parseExprStmt();
-    Expr *parseRootExpr();
     Expr *parseInlineExpr();
     Expr *parseComparisonExpr();
     Expr *parseEqualityExpr();

@@ -43,7 +43,7 @@
 			"request": "launch",
 			"program": "${workspaceFolder}/test/test",
 			"stopAtEntry": false,
-			"cwd": "${fileDirname}",
+			"cwd": "${workspaceFolder}/test",
 			"environment": [],
 			"externalConsole": false,
 			"MIMode": "gdb",
