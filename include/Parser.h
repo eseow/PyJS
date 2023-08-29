@@ -10,8 +10,8 @@ public:
     Parser() {}
     Parser(std::vector<Token> *tokens);
     virtual void parse();
-    virtual std::string getExprsString();
     virtual Expr *parseRootExpr();
+    virtual std::vector<Stmt *> getStmts();
     static int bodyDepth;
     static int currentDepth;
 
@@ -44,6 +44,6 @@ private:
     void consume(std::vector<TokenType> type, std::string errorString);
     std::vector<Token> *tokens;
     int current;
-    std::vector<Expr *> exprs;
+    std::vector<Stmt *> stmts;
 };
 #endif

@@ -12,7 +12,8 @@ using ::testing::Return;
 namespace fs = std::filesystem;
 
 const std::string SCANNER_TEST_SUITE = "Scanner";
-const std::string PARSER_TEST_SUITE = "Parser";
+const std::string PARSER_EXPR_TEST_SUITE = "ParserExpression";
+const std::string PARSER_STMT_TEST_SUITE = "ParserStatement";
 
 std::map<std::string, std::string> *getTestCaseFiles(std::string TEST_SUITE, std::string fileName)
 {
@@ -53,7 +54,7 @@ void testcase(std::string TEST_SUITE, std::string fileName)
         scanner.scanTokens();
         actualOutput = scanner.tokensToString();
     }
-    else if (TEST_SUITE == PARSER_TEST_SUITE)
+    else if (TEST_SUITE == PARSER_EXPR_TEST_SUITE)
     {
         testcase(SCANNER_TEST_SUITE, fileName);
         NiceMock<ParserMock> parser(&file);
@@ -66,6 +67,23 @@ void testcase(std::string TEST_SUITE, std::string fileName)
         {
             actualOutput = expr->toString();
         }
+    }
+    else if (TEST_SUITE == PARSER_STMT_TEST_SUITE)
+    {
+        testcase(SCANNER_TEST_SUITE, fileName);
+        NiceMock<ParserMock> parser(&file);
+        parser.parse();
+        std::string pythonToJavascript = "";
+        std::vector<Stmt *> stmts = parser.getStmts();
+        for (int i = 0; i < stmts.size(); i++)
+        {
+            pythonToJavascript += stmts.at(i)->toString();
+            if (i != stmts.size() - 1)
+            {
+                pythonToJavascript += "\n";
+            }
+        }
+        actualOutput = pythonToJavascript;
     }
     EXPECT_EQ(actualOutput, expectedOutput.str());
 }
@@ -106,27 +124,31 @@ TEST(Scanner, DetectsScannerException)
 
 TEST(Parser, ParsesInlineExpr)
 {
-    testcase(PARSER_TEST_SUITE, "inline-if");
+    testcase(PARSER_EXPR_TEST_SUITE, "inline-if");
 }
 
 TEST(Parser, ParsesComparisonExpr)
 {
-    testcase(PARSER_TEST_SUITE, "comparison");
+    testcase(PARSER_EXPR_TEST_SUITE, "comparison");
 }
 
 TEST(Parser, ParsesComparisonInlineExpr)
 {
-    testcase(PARSER_TEST_SUITE, "comparison-inline");
+    testcase(PARSER_EXPR_TEST_SUITE, "comparison-inline");
 }
 
 TEST(Parser, ParsesCompoundArithmeticOperations)
 {
-    testcase(PARSER_TEST_SUITE, "compound");
+    testcase(PARSER_EXPR_TEST_SUITE, "compound");
 }
 
 TEST(Parser, ParsesFunctionExpr)
 {
-    testcase(PARSER_TEST_SUITE, "function-expr");
+    testcase(PARSER_EXPR_TEST_SUITE, "function-expr");
+}
+TEST(Parser, ParsesIfStmt)
+{
+    testcase(PARSER_STMT_TEST_SUITE, "if-stmt");
 }
 
 /*

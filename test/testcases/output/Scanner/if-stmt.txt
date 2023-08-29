@@ -1,0 +1,8 @@
+if if
+bool 1
+colon :
+newline \n
+tab \t
+int 2
+plus +
+int 2

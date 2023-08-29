@@ -29,10 +29,10 @@ void Parser::parse()
     {
         try
         {
-            Expr *expr = parseRootExpr();
-            if (expr != nullptr)
+            Stmt *stmt = parseStmt();
+            if (stmt != nullptr)
             {
-                exprs.push_back(expr);
+                stmts.push_back(stmt);
             }
         }
         catch (ParserException &parserException)
@@ -404,16 +404,7 @@ void Parser::advance()
     current++;
 }
 
-std::string Parser::getExprsString()
+std::vector<Stmt *> Parser::getStmts()
 {
-    std::string str = "";
-    for (int i = 0; i < exprs.size(); i++)
-    {
-        str += exprs[i]->toString();
-        if (i != exprs.size() - 1)
-        {
-            str += "\n";
-        }
-    }
-    return str;
+    return stmts;
 }

@@ -18,12 +18,12 @@ public:
                                               { parser->parse(); });
         ON_CALL(*this, parseRootExpr()).WillByDefault([this]()
                                                       { return parser->parseRootExpr(); });
-        ON_CALL(*this, getExprsString()).WillByDefault([this]()
-                                                       { return parser->getExprsString(); });
+        ON_CALL(*this, getStmts()).WillByDefault([this]()
+                                                 { return parser->getStmts(); });
     };
     MOCK_METHOD(void, parse, (), (override));
     MOCK_METHOD(Expr *, parseRootExpr, (), (override));
-    MOCK_METHOD(std::string, getExprsString, (), (override));
+    MOCK_METHOD(std::vector<Stmt *>, getStmts, (), (override));
 
 private:
     Scanner *scanner = nullptr;
