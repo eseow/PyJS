@@ -146,6 +146,10 @@ TEST(Parser, ParsesFunctionExpr)
 {
     testcase(PARSER_EXPR_TEST_SUITE, "function-expr");
 }
+TEST(Parser, ParsesAddStmt)
+{
+    testcase(PARSER_STMT_TEST_SUITE, "plus-stmt");
+}
 TEST(Parser, ParsesIfStmt)
 {
     testcase(PARSER_STMT_TEST_SUITE, "if-stmt");

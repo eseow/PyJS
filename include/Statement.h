@@ -13,6 +13,7 @@ class IfStmt : public Stmt
 {
 public:
     IfStmt(
+        Expr *ifCond,
         std::vector<Stmt *> body,
         std::vector<IfStmt *> elifStmt,
         std::vector<Stmt *> elseBody);

@@ -74,11 +74,10 @@ void Parser::clearWhitespace()
         {
             tabs++;
         }
-        else
+        else if (matchTokenType(TokenType::NEWLINE))
         {
             tabs = 0;
         }
-        advance();
     }
     currentDepth = tabs;
     if (currentDepth > bodyDepth)
@@ -147,7 +146,7 @@ IfStmt *Parser::parseIfStmt()
     {
         throwParserException("Empty body for if statement");
     }
-    return new IfStmt(body, elifStmts, elseBody);
+    return new IfStmt(ifCond, body, elifStmts, elseBody);
 }
 
 Stmt *Parser::parseExprStmt()
